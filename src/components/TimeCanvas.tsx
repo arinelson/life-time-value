@@ -97,10 +97,14 @@ export function TimeCanvas() {
       </div>
 
       <div 
-        className="canvas-grid border rounded-lg p-4 h-[calc(100%-60px)] overflow-auto"
+        className="canvas-grid border rounded-lg p-4 overflow-y-auto"
         style={{ 
           gridTemplateRows: `repeat(${grid.rows}, minmax(8px, 1fr))`,
           gridTemplateColumns: `repeat(${grid.cols}, minmax(8px, 1fr))`,
+          maxWidth: '100%',
+          height: 'auto',
+          maxHeight: '70vh',
+          overflowX: 'hidden'
         }}
       >
         {Array.from({ length: totalUnits }).map((_, index) => (

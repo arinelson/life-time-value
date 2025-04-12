@@ -3,10 +3,20 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 import { Progress } from "@/components/ui/progress";
 import { format } from "date-fns";
+import { useState, useEffect } from "react";
+import { getRandomQuote } from "@/utils/lifeQuotes";
 
 export function TimeProgress() {
   const { t } = useLanguage();
   const { birthDate, lifeExpectancy, elapsedUnits, totalUnits } = useTimeCanvas();
+  const [quote, setQuote] = useState<string>("");
+  
+  // Atualiza a citação quando os dados mudam
+  useEffect(() => {
+    if (birthDate) {
+      setQuote(getRandomQuote());
+    }
+  }, [birthDate, lifeExpectancy, totalUnits]);
 
   // Calcular porcentagem do tempo vivido
   const percentElapsed = Math.min(100, Math.round((elapsedUnits / totalUnits) * 100)) || 0;
@@ -46,6 +56,15 @@ export function TimeProgress() {
           </p>
         </div>
       </div>
+      
+      {/* Citação filosófica */}
+      {quote && (
+        <div className="mt-2 border-t pt-4">
+          <blockquote className="italic text-center text-muted-foreground px-4">
+            "{quote}"
+          </blockquote>
+        </div>
+      )}
     </div>
   );
 }

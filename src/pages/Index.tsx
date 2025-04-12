@@ -19,7 +19,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 container px-4 md:px-6 animate-fade-in">
+      <main className="flex-1 container px-4 md:px-6 pb-8 animate-fade-in">
         <div className="max-w-6xl mx-auto">
           <div className="grid gap-6 p-6 md:p-8 border rounded-lg bg-card animate-slide-up mb-6">
             <div className="grid gap-4 md:grid-cols-3">
@@ -41,7 +41,7 @@ const Index = () => {
               
               <TimeProgress />
               
-              <div className="h-[calc(100vh-300px)] min-h-[500px]">
+              <div className="w-full h-auto min-h-[500px]">
                 <TimeCanvas />
               </div>
             </div>
