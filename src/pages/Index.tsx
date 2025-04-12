@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 import Header from "@/components/Header";
@@ -10,60 +9,42 @@ import TimeUnitSelector from "@/components/TimeUnitSelector";
 import TimeCanvas from "@/components/TimeCanvas";
 import DownloadButton from "@/components/DownloadButton";
 import ShareButton from "@/components/ShareButton";
-import { Button } from "@/components/ui/button";
+import TimeProgress from "@/components/TimeProgress";
 
 const Index = () => {
   const { t } = useLanguage();
-  const { birthDate, hasGenerated, setHasGenerated } = useTimeCanvas();
-  const [showInputs, setShowInputs] = useState(true);
-
-  const handleGenerate = () => {
-    if (!birthDate) return;
-    
-    setShowInputs(false);
-    setHasGenerated(true);
-  };
-
-  const handleReset = () => {
-    setShowInputs(true);
-  };
+  const { birthDate } = useTimeCanvas();
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-1 container px-4 md:px-6 animate-fade-in">
-        <div className="max-w-4xl mx-auto">
-          {showInputs ? (
-            <div className="grid gap-6 p-6 md:p-8 border rounded-lg bg-card animate-slide-up">
-              <div className="grid gap-4 md:grid-cols-3">
-                <BirthdayInput />
-                <LifeExpectancyInput />
-                <TimeUnitSelector />
-              </div>
-              
-              <Button 
-                onClick={handleGenerate}
-                disabled={!birthDate}
-                size="lg"
-                className="w-full md:w-auto md:self-end"
-              >
-                {t("generate")}
-              </Button>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid gap-6 p-6 md:p-8 border rounded-lg bg-card animate-slide-up mb-6">
+            <div className="grid gap-4 md:grid-cols-3">
+              <BirthdayInput />
+              <LifeExpectancyInput />
+              <TimeUnitSelector />
             </div>
-          ) : (
-            <>
-              <div className="flex items-center justify-between mb-4">
-                <Button variant="ghost" onClick={handleReset}>
-                  ← {t("birthday")}: {birthDate?.toLocaleDateString()}
-                </Button>
-                <div className="flex gap-2">
+          </div>
+
+          {birthDate && (
+            <div className="animate-fade-in">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+                <h2 className="text-2xl font-bold">{t("results")}</h2>
+                <div className="flex gap-2 w-full md:w-auto">
                   <DownloadButton />
                   <ShareButton />
                 </div>
               </div>
-              <TimeCanvas />
-            </>
+              
+              <TimeProgress />
+              
+              <div className="h-[calc(100vh-300px)] min-h-[500px]">
+                <TimeCanvas />
+              </div>
+            </div>
           )}
         </div>
       </main>

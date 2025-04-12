@@ -18,7 +18,7 @@ export function TimeCanvas() {
     lifeExpectancy, 
     timeUnit, 
     totalUnits, 
-    elapsedUnits, 
+    elapsedUnits,
     hasGenerated,
     setHasGenerated
   } = useTimeCanvas();
@@ -80,12 +80,12 @@ export function TimeCanvas() {
     return format(date, "PP");
   };
 
-  if (!birthDate || !hasGenerated) {
+  if (!birthDate) {
     return null;
   }
 
   return (
-    <div className="w-full my-8" id="time-canvas" ref={canvasRef}>
+    <div className="w-full h-full" id="time-canvas" ref={canvasRef}>
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {getUnitIcon()}
@@ -97,7 +97,7 @@ export function TimeCanvas() {
       </div>
 
       <div 
-        className="canvas-grid border rounded-lg p-4 overflow-auto max-h-[70vh]"
+        className="canvas-grid border rounded-lg p-4 h-[calc(100%-60px)] overflow-auto"
         style={{ 
           gridTemplateRows: `repeat(${grid.rows}, minmax(8px, 1fr))`,
           gridTemplateColumns: `repeat(${grid.cols}, minmax(8px, 1fr))`,

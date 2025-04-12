@@ -1,130 +1,122 @@
+export type Language = "en" | "pt" | "es" | "it" | "de";
 
-export type Language = "pt" | "en" | "es" | "it" | "de";
-
-export const languages = [
-  { code: "pt", name: "Português" },
-  { code: "en", name: "English" },
-  { code: "es", name: "Español" },
-  { code: "it", name: "Italiano" },
-  { code: "de", name: "Deutsch" },
-];
-
-export type Translations = {
-  title: string;
-  subtitle: string;
-  birthday: string;
-  lifeExpectancy: string;
-  timeUnit: string;
-  days: string;
-  weeks: string;
-  months: string;
-  years: string;
-  generate: string;
-  download: string;
-  share: string;
-  past: string;
-  present: string;
-  future: string;
-  footer: string;
-  inspiration: string;
+export type Translation = {
+  [key: string]: string;
 };
 
-const translations: Record<Language, Translations> = {
+export type Translations = {
+  [key in Language]: Translation;
+};
+
+export default {
   en: {
     title: "TimeCanvas",
-    subtitle: "Redesign your perception of time",
-    birthday: "Date of birth",
-    lifeExpectancy: "Life expectancy (years)",
-    timeUnit: "Time unit",
+    subtitle: "Visualize your life in time units.",
+    birthday: "Birthday",
+    lifeExpectancy: "Life Expectancy",
+    timeUnit: "Time Unit",
     days: "Days",
     weeks: "Weeks",
     months: "Months",
     years: "Years",
     generate: "Generate",
-    download: "Download PDF",
-    share: "Share with friends",
+    download: "Download",
+    share: "Share",
     past: "Past",
     present: "Present",
     future: "Future",
-    footer: "TimeCanvas - Created by Lovable",
-    inspiration: "Inspired by",
+    results: "Your TimeCanvas",
+    timeElapsed: "Time Elapsed",
+    timeRemaining: "Time Remaining",
+    born: "Born on",
+    years: "years",
   },
   pt: {
     title: "TimeCanvas",
-    subtitle: "Redesenhe sua percepção do tempo",
-    birthday: "Data de nascimento",
-    lifeExpectancy: "Expectativa de vida (anos)",
-    timeUnit: "Unidade de tempo",
+    subtitle: "Visualize sua vida em unidades de tempo.",
+    birthday: "Data de Nascimento",
+    lifeExpectancy: "Expectativa de Vida",
+    timeUnit: "Unidade de Tempo",
     days: "Dias",
     weeks: "Semanas",
     months: "Meses",
     years: "Anos",
     generate: "Gerar",
-    download: "Baixar PDF",
+    download: "Download",
     share: "Compartilhar",
     past: "Passado",
     present: "Presente",
     future: "Futuro",
-    footer: "TimeCanvas - Criado por Lovable",
-    inspiration: "Inspirado por",
+    results: "Seu TimeCanvas",
+    timeElapsed: "Tempo Decorrido",
+    timeRemaining: "Tempo Restante",
+    born: "Nasceu em",
+    years: "anos",
   },
   es: {
     title: "TimeCanvas",
-    subtitle: "Rediseña tu percepción del tiempo",
-    birthday: "Fecha de nacimiento",
-    lifeExpectancy: "Esperanza de vida (años)",
-    timeUnit: "Unidad de tiempo",
+    subtitle: "Visualiza tu vida en unidades de tiempo.",
+    birthday: "Fecha de Nacimiento",
+    lifeExpectancy: "Expectativa de Vida",
+    timeUnit: "Unidad de Tiempo",
     days: "Días",
     weeks: "Semanas",
     months: "Meses",
     years: "Años",
     generate: "Generar",
-    download: "Descargar PDF",
+    download: "Descargar",
     share: "Compartir",
     past: "Pasado",
     present: "Presente",
     future: "Futuro",
-    footer: "TimeCanvas - Creado por Lovable",
-    inspiration: "Inspirado en",
+    results: "Tu TimeCanvas",
+    timeElapsed: "Tiempo Transcurrido",
+    timeRemaining: "Tiempo Restante",
+    born: "Nacido en",
+    years: "años",
   },
   it: {
     title: "TimeCanvas",
-    subtitle: "Ridisegna la tua percezione del tempo",
-    birthday: "Data di nascita",
-    lifeExpectancy: "Aspettativa di vita (anni)",
-    timeUnit: "Unità di tempo",
+    subtitle: "Visualizza la tua vita in unità di tempo.",
+    birthday: "Data di Nascita",
+    lifeExpectancy: "Aspettativa di Vita",
+    timeUnit: "Unità di Tempo",
     days: "Giorni",
     weeks: "Settimane",
     months: "Mesi",
     years: "Anni",
     generate: "Genera",
-    download: "Scarica PDF",
+    download: "Scarica",
     share: "Condividi",
     past: "Passato",
     present: "Presente",
     future: "Futuro",
-    footer: "TimeCanvas - Creato da Lovable",
-    inspiration: "Ispirato da",
+    results: "Il Tuo TimeCanvas",
+    timeElapsed: "Tempo Trascorso",
+    timeRemaining: "Tempo Rimanente",
+    born: "Nato il",
+    years: "anni",
   },
   de: {
     title: "TimeCanvas",
-    subtitle: "Gestalte deine Zeitwahrnehmung neu",
+    subtitle: "Visualisiere dein Leben in Zeiteinheiten.",
     birthday: "Geburtsdatum",
-    lifeExpectancy: "Lebenserwartung (Jahre)",
+    lifeExpectancy: "Lebenserwartung",
     timeUnit: "Zeiteinheit",
     days: "Tage",
     weeks: "Wochen",
     months: "Monate",
     years: "Jahre",
     generate: "Generieren",
-    download: "PDF herunterladen",
+    download: "Herunterladen",
     share: "Teilen",
     past: "Vergangenheit",
     present: "Gegenwart",
     future: "Zukunft",
-    footer: "TimeCanvas - Erstellt von Lovable",
-    inspiration: "Inspiriert von",
+    results: "Dein TimeCanvas",
+    timeElapsed: "Verstrichene Zeit",
+    timeRemaining: "Verbleibende Zeit",
+    born: "Geboren am",
+    years: "Jahre",
   },
-};
-
-export default translations;
+} as const;
