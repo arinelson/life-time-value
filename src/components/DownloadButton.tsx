@@ -25,7 +25,8 @@ export function DownloadButton() {
       toast({
         title: "Download Complete",
         description: "Your TimeCanvas has been downloaded successfully!",
-        variant: "success",
+        // Changed from "success" to "default" as that's one of the allowed variants
+        variant: "default",
       });
     } catch (error) {
       toast({

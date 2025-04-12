@@ -1,5 +1,5 @@
 
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { TimeUnit } from './timeCalculations';
 import translations, { Language } from './translations';
@@ -50,5 +50,6 @@ export async function generatePDF(elementId: string, birthDate: Date, lifeExpect
     pdf.save(`TimeCanvas_${new Date().toISOString().split('T')[0]}.pdf`);
   } catch (error) {
     console.error('Error generating PDF:', error);
+    throw error; // Rethrow the error so it can be caught by the calling function
   }
 }
