@@ -31,7 +31,7 @@ export function TimeProgress() {
           </div>
           <Progress value={percentElapsed} className="h-2" />
           <p className="text-sm text-muted-foreground">
-            {t("born")}: {format(birthDate, "PP")} ({yearsElapsed} {t("years")})
+            {t("born")}: {format(birthDate, "PP")} ({yearsElapsed} {t("yearsOld")})
           </p>
         </div>
         
@@ -42,7 +42,7 @@ export function TimeProgress() {
           </div>
           <Progress value={percentRemaining} className="h-2" />
           <p className="text-sm text-muted-foreground">
-            {t("lifeExpectancy")}: {expectedEndYear} ({yearsRemaining} {t("years")})
+            {t("lifeExpectancy")}: {expectedEndYear} ({yearsRemaining} {t("yearsOld")})
           </p>
         </div>
       </div>

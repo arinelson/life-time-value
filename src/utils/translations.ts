@@ -1,4 +1,13 @@
+
 export type Language = "en" | "pt" | "es" | "it" | "de";
+
+export const languages = [
+  { code: "en", name: "English" },
+  { code: "pt", name: "Português" },
+  { code: "es", name: "Español" },
+  { code: "it", name: "Italiano" },
+  { code: "de", name: "Deutsch" }
+];
 
 export type Translation = {
   [key: string]: string;
@@ -29,7 +38,9 @@ export default {
     timeElapsed: "Time Elapsed",
     timeRemaining: "Time Remaining",
     born: "Born on",
-    years: "years",
+    yearsOld: "years",
+    footer: "© 2025 TimeCanvas",
+    inspiration: "Inspired by"
   },
   pt: {
     title: "TimeCanvas",
@@ -51,7 +62,9 @@ export default {
     timeElapsed: "Tempo Decorrido",
     timeRemaining: "Tempo Restante",
     born: "Nasceu em",
-    years: "anos",
+    yearsOld: "anos",
+    footer: "© 2025 TimeCanvas",
+    inspiration: "Inspirado por"
   },
   es: {
     title: "TimeCanvas",
@@ -73,7 +86,9 @@ export default {
     timeElapsed: "Tiempo Transcurrido",
     timeRemaining: "Tiempo Restante",
     born: "Nacido en",
-    years: "años",
+    yearsOld: "años",
+    footer: "© 2025 TimeCanvas",
+    inspiration: "Inspirado por"
   },
   it: {
     title: "TimeCanvas",
@@ -95,7 +110,9 @@ export default {
     timeElapsed: "Tempo Trascorso",
     timeRemaining: "Tempo Rimanente",
     born: "Nato il",
-    years: "anni",
+    yearsOld: "anni",
+    footer: "© 2025 TimeCanvas",
+    inspiration: "Inspirato da"
   },
   de: {
     title: "TimeCanvas",
@@ -117,6 +134,8 @@ export default {
     timeElapsed: "Verstrichene Zeit",
     timeRemaining: "Verbleibende Zeit",
     born: "Geboren am",
-    years: "Jahre",
+    yearsOld: "Jahre",
+    footer: "© 2025 TimeCanvas",
+    inspiration: "Inspiriert von"
   },
 } as const;
