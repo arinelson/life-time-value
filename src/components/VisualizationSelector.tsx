@@ -49,7 +49,10 @@ export function VisualizationSelector() {
   ] as const;
 
   return (
-    <ScrollArea className="w-full">
+    <ScrollArea 
+      className="w-full" 
+      orientation="horizontal"
+    >
       <Tabs
         value={visualizationType}
         onValueChange={(value) => setVisualizationType(value as VisualizationType)}

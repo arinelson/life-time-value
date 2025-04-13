@@ -1,5 +1,4 @@
-
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getGridDimensions, getDateFromIndex, TimeUnit } from "@/utils/timeCalculations";
@@ -20,11 +19,26 @@ export function GridView({
   birthDate 
 }: GridViewProps) {
   const isMobile = useIsMobile();
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialRender = useRef(true);
 
-  // Memoize grid dimensions calculation
+  // Memoize grid dimensions calculation with better settings for visibility
   const grid = useMemo(() => {
-    return getGridDimensions(totalUnits);
-  }, [totalUnits]);
+    if (timeUnit === "years") {
+      // For years, keep a square-ish grid
+      const squareSide = Math.ceil(Math.sqrt(totalUnits));
+      return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
+    } else if (timeUnit === "months") {
+      // For months, create a grid that shows more columns
+      return { rows: Math.min(12, Math.ceil(totalUnits / 12)), cols: 12 };
+    } else if (timeUnit === "weeks") {
+      // For weeks, create a grid with 52 weeks per row (year)
+      return { rows: Math.ceil(totalUnits / 52), cols: 52 };
+    } else {
+      // For days, create a scrollable grid with months as rows
+      return { rows: Math.ceil(totalUnits / 30), cols: 30 };
+    }
+  }, [totalUnits, timeUnit]);
 
   // Memoize cell class determination
   const getCellClass = useCallback((index: number) => {
@@ -57,49 +71,11 @@ export function GridView({
     return format(date, "PP");
   }, [birthDate, timeUnit]);
 
-  // Calculate if we need scroll based on time unit
-  const needsScroll = useMemo(() => {
-    if (timeUnit === "days" || 
-       (isMobile && (timeUnit === "weeks" || timeUnit === "months")) || 
-       totalUnits > 100) {
-      return true;
-    }
-    return false;
-  }, [timeUnit, isMobile, totalUnits]);
-  
-  // Calculate dynamic height based on time unit
-  const getCanvasHeight = useMemo(() => {
-    if (timeUnit === "years") return "auto";
-    if (timeUnit === "months") return isMobile ? "500px" : "auto";
-    if (timeUnit === "weeks") return isMobile ? "500px" : "auto";
-    return "500px"; // For days, always use fixed height with scroll
-  }, [timeUnit, isMobile]);
-
-  // Ensure the present cell is visible on mobile
-  const scrollToPresent = useCallback((container: HTMLDivElement | null) => {
-    if (!container) return;
-    
-    // Find the present element
-    const presentElement = container.querySelector(".canvas-present");
-    if (presentElement && isMobile) {
-      // Calculate the position to scroll to
-      const gridWidth = container.scrollWidth;
-      const elementPosition = (presentElement as HTMLElement).offsetLeft;
-      const containerWidth = container.clientWidth;
-      
-      // Center the present element in the view
-      container.scrollLeft = elementPosition - (containerWidth / 2);
-    }
-  }, [isMobile]);
-
-  // For mobile optimization, only render a subset of cells around the current position
-  const getCellsToRender = useMemo(() => {
+  // Render all cells for completeness
+  const renderAllCells = useMemo(() => {
     const cells = [];
-    const buffer = isMobile ? 500 : totalUnits; // On mobile, only render cells near the viewport
-    const startIndex = Math.max(0, elapsedUnits - buffer);
-    const endIndex = Math.min(totalUnits, elapsedUnits + buffer);
     
-    for (let i = startIndex; i < endIndex; i++) {
+    for (let i = 0; i < totalUnits; i++) {
       cells.push(
         <div
           key={i}
@@ -112,39 +88,59 @@ export function GridView({
       );
     }
     return cells;
-  }, [elapsedUnits, totalUnits, getCellClass, getCellContent, getCellTooltip, isMobile]);
+  }, [totalUnits, getCellClass, getCellContent, getCellTooltip]);
 
-  if (needsScroll) {
-    return (
-      <ScrollArea 
-        className="border rounded-lg p-4" 
-        style={{ height: getCanvasHeight }}
-        onLoadCapture={(e) => scrollToPresent(e.currentTarget)}
-      >
-        <div 
-          className="canvas-grid"
-          style={{ 
-            gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
-            gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
-            width: isMobile ? `${grid.cols * 25}px` : '100%'
-          }}
-        >
-          {getCellsToRender}
-        </div>
-      </ScrollArea>
-    );
-  }
+  // Auto-scroll to present cell on mount and when elapsedUnits changes
+  useEffect(() => {
+    const scrollToPresent = () => {
+      if (!gridContainerRef.current) return;
+      
+      const presentCell = gridContainerRef.current.querySelector(".canvas-present");
+      if (presentCell) {
+        // Find the containing scroll area
+        const scrollAreaViewport = gridContainerRef.current.closest("[data-radix-scroll-area-viewport]") as HTMLElement;
+        
+        if (scrollAreaViewport) {
+          const cellRect = (presentCell as HTMLElement).getBoundingClientRect();
+          const viewportRect = scrollAreaViewport.getBoundingClientRect();
+          
+          // Calculate scroll position to center the present cell
+          const scrollLeft = (presentCell as HTMLElement).offsetLeft - (viewportRect.width / 2) + (cellRect.width / 2);
+          
+          // Smooth scroll to the present cell
+          scrollAreaViewport.scrollTo({
+            left: scrollLeft,
+            behavior: isInitialRender.current ? 'auto' : 'smooth'
+          });
+        }
+      }
+      isInitialRender.current = false;
+    };
+
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(scrollToPresent, 100);
+    return () => clearTimeout(timer);
+  }, [elapsedUnits, totalUnits]);
 
   return (
-    <div 
-      className="canvas-grid border rounded-lg p-4"
-      style={{ 
-        gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
-        gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
-        width: '100%'
-      }}
+    <ScrollArea 
+      className="border rounded-lg p-4" 
+      style={{ height: timeUnit === "years" ? "auto" : "500px" }}
+      orientation="both"
+      ref={gridContainerRef}
     >
-      {getCellsToRender}
-    </div>
+      <div 
+        className="canvas-grid"
+        style={{ 
+          gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
+          gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
+          width: isMobile ? `${grid.cols * 25}px` : '100%',
+          minWidth: '100%',
+          minHeight: timeUnit === "years" ? "auto" : "450px"
+        }}
+      >
+        {renderAllCells}
+      </div>
+    </ScrollArea>
   );
 }
