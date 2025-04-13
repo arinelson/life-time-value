@@ -23,7 +23,7 @@ export type Translations = {
 
 const baseTranslations = {
   en: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualize your life in time units.",
     birthday: "Birthday",
     lifeExpectancy: "Life Expectancy",
@@ -44,10 +44,10 @@ const baseTranslations = {
     born: "Born on",
     yearsOld: "years",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspired by"
+    inspiration: "DESIGNED BY"
   },
   pt: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualize sua vida em unidades de tempo.",
     birthday: "Data de Nascimento",
     lifeExpectancy: "Expectativa de Vida",
@@ -68,10 +68,10 @@ const baseTranslations = {
     born: "Nasceu em",
     yearsOld: "anos",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspirado por"
+    inspiration: "iDEALIZADO POR"
   },
   es: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualiza tu vida en unidades de tiempo.",
     birthday: "Fecha de Nacimiento",
     lifeExpectancy: "Expectativa de Vida",
@@ -92,10 +92,10 @@ const baseTranslations = {
     born: "Nacido en",
     yearsOld: "años",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspirado por"
+    inspiration: "DISEÑADO POR"
   },
   it: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualizza la tua vita in unità di tempo.",
     birthday: "Data di Nascita",
     lifeExpectancy: "Aspettativa di Vita",
@@ -116,10 +116,10 @@ const baseTranslations = {
     born: "Nato il",
     yearsOld: "anni",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspirato da"
+    inspiration: "PROGETTATO DA"
   },
   de: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualisiere dein Leben in Zeiteinheiten.",
     birthday: "Geburtsdatum",
     lifeExpectancy: "Lebenserwartung",
@@ -140,10 +140,10 @@ const baseTranslations = {
     born: "Geboren am",
     yearsOld: "Jahre",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspiriert von"
+    inspiration: "DESIGN VON"
   },
   fr: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualisez votre vie en unités de temps.",
     birthday: "Date de naissance",
     lifeExpectancy: "Espérance de vie",
@@ -164,10 +164,10 @@ const baseTranslations = {
     born: "Né(e) le",
     yearsOld: "ans",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Inspiré par"
+    inspiration: "CONÇU PAR"
   },
   ru: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Визуализируйте свою жизнь в единицах времени.",
     birthday: "Дата рождения",
     lifeExpectancy: "Ожидаемая продолжительность жизни",
@@ -188,10 +188,10 @@ const baseTranslations = {
     born: "Родились",
     yearsOld: "лет",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Вдохновлено"
+    inspiration: "РАЗРАБОТАНО"
   },
   zh: {
-    title: "时间画布",
+    title: "阿里 |时间屏幕",
     subtitle: "以时间单位可视化您的生活。",
     birthday: "出生日期",
     lifeExpectancy: "预期寿命",
@@ -212,10 +212,10 @@ const baseTranslations = {
     born: "出生于",
     yearsOld: "岁",
     footer: "© 2025 时间画布",
-    inspiration: "灵感来源"
+    inspiration: "设计者"
   },
   ja: {
-    title: "タイムキャンバス",
+    title: "アリタイムスクリーン",
     subtitle: "あなたの人生を時間単位で視覚化します。",
     birthday: "誕生日",
     lifeExpectancy: "平均寿命",
@@ -236,10 +236,10 @@ const baseTranslations = {
     born: "生まれ",
     yearsOld: "歳",
     footer: "© 2025 タイムキャンバス",
-    inspiration: "インスピレーション元"
+    inspiration: "デザイン："
   },
   id: {
-    title: "TimeCanvas",
+    title: "Ari | TimeCanvas",
     subtitle: "Visualisasikan hidup Anda dalam unit waktu.",
     birthday: "Tanggal Lahir",
     lifeExpectancy: "Harapan Hidup",
@@ -260,7 +260,7 @@ const baseTranslations = {
     born: "Lahir pada",
     yearsOld: "tahun",
     footer: "© 2025 TimeCanvas",
-    inspiration: "Terinspirasi oleh"
+    inspiration: "DIRANCANG OLEH"
   }
 } as const;
 
