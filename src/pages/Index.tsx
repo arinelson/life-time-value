@@ -8,6 +8,7 @@ import BirthdayInput from "@/components/BirthdayInput";
 import LifeExpectancyInput from "@/components/LifeExpectancyInput";
 import TimeUnitSelector from "@/components/TimeUnitSelector";
 import TimeProgress from "@/components/TimeProgress";
+import VisualizationSelector from "@/components/VisualizationSelector";
 
 // Lazy load components that aren't needed immediately
 const TimeCanvas = lazy(() => import("@/components/TimeCanvas"));
@@ -47,6 +48,8 @@ const Index = () => {
               </div>
               
               <TimeProgress />
+              
+              <VisualizationSelector />
               
               <div className="w-full">
                 <Suspense fallback={<div className="w-full h-64 bg-muted rounded animate-pulse"></div>}>

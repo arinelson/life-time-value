@@ -1,6 +1,7 @@
 
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from "react";
 import { calculateTotalUnits, calculateElapsedUnits, TimeUnit } from "@/utils/timeCalculations";
+import type { VisualizationType } from "@/components/VisualizationSelector";
 
 type TimeCanvasContextType = {
   birthDate: Date | null;
@@ -9,6 +10,8 @@ type TimeCanvasContextType = {
   setLifeExpectancy: (years: number) => void;
   timeUnit: TimeUnit;
   setTimeUnit: (unit: TimeUnit) => void;
+  visualizationType: VisualizationType;
+  setVisualizationType: (type: VisualizationType) => void;
   totalUnits: number;
   elapsedUnits: number;
   hasGenerated: boolean;
@@ -34,6 +37,11 @@ export function TimeCanvasProvider({ children }: { children: ReactNode }) {
     return savedUnit ? savedUnit : "weeks";
   });
   
+  const [visualizationType, setVisualizationTypeRaw] = useState<VisualizationType>(() => {
+    const savedType = localStorage.getItem('timecanvas-visualizationType') as VisualizationType;
+    return savedType ? savedType : "grid";
+  });
+  
   const [totalUnits, setTotalUnits] = useState<number>(0);
   const [elapsedUnits, setElapsedUnits] = useState<number>(0);
   
@@ -43,37 +51,47 @@ export function TimeCanvasProvider({ children }: { children: ReactNode }) {
   });
 
   // Wrapper functions to update both state and localStorage
-  const setBirthDate = (date: Date | null) => {
+  const setBirthDate = useCallback((date: Date | null) => {
     if (date) {
       localStorage.setItem('timecanvas-birthDate', date.toISOString());
     } else {
       localStorage.removeItem('timecanvas-birthDate');
     }
     setBirthDateRaw(date);
-  };
+  }, []);
 
-  const setLifeExpectancy = (years: number) => {
+  const setLifeExpectancy = useCallback((years: number) => {
     localStorage.setItem('timecanvas-lifeExpectancy', years.toString());
     setLifeExpectancyRaw(years);
-  };
+  }, []);
 
-  const setTimeUnit = (unit: TimeUnit) => {
+  const setTimeUnit = useCallback((unit: TimeUnit) => {
     localStorage.setItem('timecanvas-timeUnit', unit);
     setTimeUnitRaw(unit);
-  };
+  }, []);
+  
+  const setVisualizationType = useCallback((type: VisualizationType) => {
+    localStorage.setItem('timecanvas-visualizationType', type);
+    setVisualizationTypeRaw(type);
+  }, []);
 
-  const setHasGenerated = (generated: boolean) => {
+  const setHasGenerated = useCallback((generated: boolean) => {
     localStorage.setItem('timecanvas-hasGenerated', generated.toString());
     setHasGeneratedRaw(generated);
-  };
+  }, []);
 
   useEffect(() => {
     if (birthDate) {
-      const total = calculateTotalUnits(birthDate, lifeExpectancy, timeUnit);
-      setTotalUnits(total);
+      // Use a timeout to prevent UI blocking when recalculating
+      const timeoutId = setTimeout(() => {
+        const total = calculateTotalUnits(birthDate, lifeExpectancy, timeUnit);
+        setTotalUnits(total);
+        
+        const elapsed = calculateElapsedUnits(birthDate, timeUnit);
+        setElapsedUnits(elapsed);
+      }, 0);
       
-      const elapsed = calculateElapsedUnits(birthDate, timeUnit);
-      setElapsedUnits(elapsed);
+      return () => clearTimeout(timeoutId);
     }
   }, [birthDate, lifeExpectancy, timeUnit]);
 
@@ -86,6 +104,8 @@ export function TimeCanvasProvider({ children }: { children: ReactNode }) {
         setLifeExpectancy,
         timeUnit,
         setTimeUnit,
+        visualizationType,
+        setVisualizationType,
         totalUnits,
         elapsedUnits,
         hasGenerated,

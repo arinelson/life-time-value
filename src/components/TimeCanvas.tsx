@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { format } from "date-fns";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
@@ -12,6 +12,16 @@ import {
   CalendarIcon, 
   Calendar as CalendarFull 
 } from "lucide-react";
+import { GridView } from "./visualizations/GridView";
+import { HeatmapView } from "./visualizations/HeatmapView";
+import { BarChartView } from "./visualizations/BarChartView";
+import { LineChartView } from "./visualizations/LineChartView";
+import { PieChartView } from "./visualizations/PieChartView";
+import { GaugeChartView } from "./visualizations/GaugeChartView";
+import { AreaChartView } from "./visualizations/AreaChartView";
+import { TimelineView } from "./visualizations/TimelineView";
+import { RadarChartView } from "./visualizations/RadarChartView";
+import { Card } from "@/components/ui/card";
 
 export function TimeCanvas() {
   const { t } = useLanguage();
@@ -22,17 +32,15 @@ export function TimeCanvas() {
     totalUnits, 
     elapsedUnits,
     hasGenerated,
-    setHasGenerated
+    setHasGenerated,
+    visualizationType
   } = useTimeCanvas();
   
-  const [grid, setGrid] = useState<{ rows: number, cols: number }>({ rows: 0, cols: 0 });
   const canvasRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  
+
   useEffect(() => {
     if (birthDate && totalUnits > 0) {
-      const dimensions = getGridDimensions(totalUnits);
-      setGrid(dimensions);
       setHasGenerated(true);
     }
   }, [birthDate, totalUnits, setHasGenerated]);
@@ -53,52 +61,39 @@ export function TimeCanvas() {
     }
   };
 
-  const getCellClass = (index: number) => {
-    if (index === elapsedUnits) {
-      return "canvas-present";
-    } else if (index < elapsedUnits) {
-      return "canvas-past";
-    } else {
-      return "canvas-future";
-    }
-  };
-
-  const getCellContent = (index: number) => {
+  const renderVisualization = () => {
     if (!birthDate) return null;
 
-    // Only show content for specific units
-    if (timeUnit === "years") {
-      const date = getDateFromIndex(birthDate, index, timeUnit);
-      return date.getFullYear();
-    }
-    
-    return null;
-  };
+    const commonProps = {
+      elapsedUnits,
+      totalUnits,
+      timeUnit,
+      birthDate,
+      lifeExpectancy
+    };
 
-  // Generate tooltip text for cell
-  const getCellTooltip = (index: number) => {
-    if (!birthDate) return "";
-    
-    const date = getDateFromIndex(birthDate, index, timeUnit);
-    return format(date, "PP");
-  };
-
-  // Calculate if we need scroll based on time unit
-  const needsScroll = () => {
-    if (timeUnit === "days" || 
-       (isMobile && (timeUnit === "weeks" || timeUnit === "months")) || 
-       totalUnits > 100) {
-      return true;
+    switch (visualizationType) {
+      case "grid":
+        return <GridView {...commonProps} />;
+      case "heatmap":
+        return <HeatmapView {...commonProps} />;
+      case "bar":
+        return <BarChartView {...commonProps} />;
+      case "line":
+        return <LineChartView {...commonProps} />;
+      case "pie":
+        return <PieChartView {...commonProps} />;
+      case "gauge":
+        return <GaugeChartView {...commonProps} />;
+      case "area":
+        return <AreaChartView {...commonProps} />;
+      case "timeline":
+        return <TimelineView {...commonProps} />;
+      case "radar":
+        return <RadarChartView {...commonProps} />;
+      default:
+        return <GridView {...commonProps} />;
     }
-    return false;
-  };
-  
-  // Calculate dynamic height based on time unit
-  const getCanvasHeight = () => {
-    if (timeUnit === "years") return "auto";
-    if (timeUnit === "months") return isMobile ? "500px" : "auto";
-    if (timeUnit === "weeks") return isMobile ? "500px" : "auto";
-    return "500px"; // For days, always use fixed height with scroll
   };
 
   if (!birthDate) {
@@ -117,49 +112,9 @@ export function TimeCanvas() {
         </div>
       </div>
 
-      {needsScroll() ? (
-        <ScrollArea className="border rounded-lg p-4" style={{ height: getCanvasHeight() }}>
-          <div 
-            className="canvas-grid"
-            style={{ 
-              gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
-              gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
-              width: isMobile ? `${grid.cols * 25}px` : '100%'
-            }}
-          >
-            {Array.from({ length: totalUnits }).map((_, index) => (
-              <div
-                key={index}
-                className={`canvas-cell ${getCellClass(index)}`}
-                title={getCellTooltip(index)}
-                data-index={index}
-              >
-                {getCellContent(index)}
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
-      ) : (
-        <div 
-          className="canvas-grid border rounded-lg p-4"
-          style={{ 
-            gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
-            gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
-            width: '100%'
-          }}
-        >
-          {Array.from({ length: totalUnits }).map((_, index) => (
-            <div
-              key={index}
-              className={`canvas-cell ${getCellClass(index)}`}
-              title={getCellTooltip(index)}
-              data-index={index}
-            >
-              {getCellContent(index)}
-            </div>
-          ))}
-        </div>
-      )}
+      <Card className="p-4 w-full overflow-hidden">
+        {renderVisualization()}
+      </Card>
       
       <div className="mt-4 flex gap-2 items-center justify-center text-sm text-muted-foreground">
         <div className="flex items-center gap-1">
