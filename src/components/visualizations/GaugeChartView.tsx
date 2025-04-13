@@ -81,7 +81,7 @@ export function GaugeChartView({
                     dominantBaseline="middle"
                     className="text-sm text-muted-foreground"
                   >
-                    {t(timeUnit)} {t("completed")}
+                    {t(timeUnit)} {t("past")}
                   </text>
                 </g>
               );

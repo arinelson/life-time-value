@@ -119,7 +119,6 @@ export function GridView({
       <ScrollArea 
         className="border rounded-lg p-4" 
         style={{ height: getCanvasHeight }}
-        orientation={isMobile ? "horizontal" : "vertical"}
         onLoadCapture={(e) => scrollToPresent(e.currentTarget)}
       >
         <div 

@@ -37,19 +37,19 @@ export function VisualizationSelector() {
   const { t } = useLanguage();
 
   const visualizationOptions = [
-    { type: "grid", label: t("grid"), icon: <Kanban className="h-4 w-4" /> },
-    { type: "heatmap", label: t("heatmap"), icon: <ActivitySquare className="h-4 w-4" /> },
-    { type: "bar", label: t("barChart"), icon: <BarChart3 className="h-4 w-4" /> },
-    { type: "line", label: t("lineChart"), icon: <LineChart className="h-4 w-4" /> },
-    { type: "pie", label: t("pieChart"), icon: <PieChart className="h-4 w-4" /> },
-    { type: "gauge", label: t("gaugeChart"), icon: <Gauge className="h-4 w-4" /> },
-    { type: "area", label: t("areaChart"), icon: <TrendingUp className="h-4 w-4" /> },
-    { type: "timeline", label: t("timeline"), icon: <Timer className="h-4 w-4" /> },
-    { type: "radar", label: t("radarChart"), icon: <RadarIcon className="h-4 w-4" /> },
+    { type: "grid", label: "grid", icon: <Kanban className="h-4 w-4" /> },
+    { type: "heatmap", label: "heatmap", icon: <ActivitySquare className="h-4 w-4" /> },
+    { type: "bar", label: "barChart", icon: <BarChart3 className="h-4 w-4" /> },
+    { type: "line", label: "lineChart", icon: <LineChart className="h-4 w-4" /> },
+    { type: "pie", label: "pieChart", icon: <PieChart className="h-4 w-4" /> },
+    { type: "gauge", label: "gaugeChart", icon: <Gauge className="h-4 w-4" /> },
+    { type: "area", label: "areaChart", icon: <TrendingUp className="h-4 w-4" /> },
+    { type: "timeline", label: "timeline", icon: <Timer className="h-4 w-4" /> },
+    { type: "radar", label: "radarChart", icon: <RadarIcon className="h-4 w-4" /> },
   ] as const;
 
   return (
-    <ScrollArea className="w-full" orientation="horizontal">
+    <ScrollArea className="w-full">
       <Tabs
         value={visualizationType}
         onValueChange={(value) => setVisualizationType(value as VisualizationType)}
@@ -61,10 +61,10 @@ export function VisualizationSelector() {
               key={option.type} 
               value={option.type}
               className="flex items-center gap-2 px-3 py-2"
-              aria-label={option.label}
+              aria-label={t(option.label)}
             >
               {option.icon}
-              <span className="hidden sm:inline">{option.label}</span>
+              <span className="hidden sm:inline">{t(option.label)}</span>
             </TabsTrigger>
           ))}
         </TabsList>

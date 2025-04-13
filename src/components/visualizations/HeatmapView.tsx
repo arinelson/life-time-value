@@ -79,7 +79,7 @@ export function HeatmapView({
   };
 
   return (
-    <ScrollArea className="h-[400px]" orientation={isMobile ? "horizontal" : "vertical"}>
+    <ScrollArea className="h-[400px]">
       <div className={`grid ${isMobile ? "grid-flow-col" : "grid-cols-12"} gap-2 p-2`}>
         {years.map((date) => {
           const year = getYear(date);
