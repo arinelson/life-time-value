@@ -7,10 +7,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import { TimeCanvasProvider } from "@/hooks/useTimeCanvas";
+import { useIpLanguageDetection } from "@/hooks/useIpLanguageDetection";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Component to initialize the IP-based language detection
+const IpLanguageDetector = () => {
+  useIpLanguageDetection();
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -18,6 +25,7 @@ const App = () => (
       <LanguageProvider>
         <TimeCanvasProvider>
           <TooltipProvider>
+            <IpLanguageDetector />
             <Toaster />
             <Sonner />
             <BrowserRouter>

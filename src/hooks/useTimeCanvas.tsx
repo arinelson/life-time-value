@@ -18,12 +18,54 @@ type TimeCanvasContextType = {
 const TimeCanvasContext = createContext<TimeCanvasContextType | undefined>(undefined);
 
 export function TimeCanvasProvider({ children }: { children: ReactNode }) {
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
-  const [lifeExpectancy, setLifeExpectancy] = useState<number>(80);
-  const [timeUnit, setTimeUnit] = useState<TimeUnit>("weeks");
+  // Initialize state from localStorage if available
+  const [birthDate, setBirthDateRaw] = useState<Date | null>(() => {
+    const savedDate = localStorage.getItem('timecanvas-birthDate');
+    return savedDate ? new Date(savedDate) : null;
+  });
+  
+  const [lifeExpectancy, setLifeExpectancyRaw] = useState<number>(() => {
+    const savedExpectancy = localStorage.getItem('timecanvas-lifeExpectancy');
+    return savedExpectancy ? parseInt(savedExpectancy, 10) : 80;
+  });
+  
+  const [timeUnit, setTimeUnitRaw] = useState<TimeUnit>(() => {
+    const savedUnit = localStorage.getItem('timecanvas-timeUnit') as TimeUnit;
+    return savedUnit ? savedUnit : "weeks";
+  });
+  
   const [totalUnits, setTotalUnits] = useState<number>(0);
   const [elapsedUnits, setElapsedUnits] = useState<number>(0);
-  const [hasGenerated, setHasGenerated] = useState<boolean>(false);
+  
+  const [hasGenerated, setHasGeneratedRaw] = useState<boolean>(() => {
+    const savedGenerated = localStorage.getItem('timecanvas-hasGenerated');
+    return savedGenerated ? savedGenerated === 'true' : false;
+  });
+
+  // Wrapper functions to update both state and localStorage
+  const setBirthDate = (date: Date | null) => {
+    if (date) {
+      localStorage.setItem('timecanvas-birthDate', date.toISOString());
+    } else {
+      localStorage.removeItem('timecanvas-birthDate');
+    }
+    setBirthDateRaw(date);
+  };
+
+  const setLifeExpectancy = (years: number) => {
+    localStorage.setItem('timecanvas-lifeExpectancy', years.toString());
+    setLifeExpectancyRaw(years);
+  };
+
+  const setTimeUnit = (unit: TimeUnit) => {
+    localStorage.setItem('timecanvas-timeUnit', unit);
+    setTimeUnitRaw(unit);
+  };
+
+  const setHasGenerated = (generated: boolean) => {
+    localStorage.setItem('timecanvas-hasGenerated', generated.toString());
+    setHasGeneratedRaw(generated);
+  };
 
   useEffect(() => {
     if (birthDate) {

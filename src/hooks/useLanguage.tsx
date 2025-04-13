@@ -1,5 +1,4 @@
-
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import translations, { Language } from "@/utils/translations";
 
 type LanguageContextType = {
@@ -11,15 +10,29 @@ type LanguageContextType = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const browserLanguage = navigator.language.split("-")[0] as Language;
-  const validLanguage = ["pt", "en", "es", "it", "de"].includes(browserLanguage) ? browserLanguage : "en";
-  
-  const [language, setLanguage] = useState<Language>(
-    () => (localStorage.getItem("timecanvas-language") as Language) || validLanguage
-  );
+  const [language, setLanguage] = useState<Language>(() => {
+    // Try to get language from localStorage first
+    const savedLanguage = localStorage.getItem("timecanvas-language") as Language | null;
+    if (savedLanguage && isValidLanguage(savedLanguage)) {
+      return savedLanguage;
+    }
+    
+    // Otherwise, try to detect from browser
+    const browserLanguage = navigator.language.split("-")[0] as Language;
+    return isValidLanguage(browserLanguage) ? browserLanguage : 'en';
+  });
+
+  function isValidLanguage(lang: string): lang is Language {
+    return ['en', 'pt', 'es', 'it', 'de', 'fr', 'ru', 'zh', 'ja', 'id'].includes(lang);
+  }
 
   const t = (key: keyof typeof translations.en): string => {
-    return translations[language][key] || translations.en[key];
+    // If the translation exists in the current language, use it
+    if (translations[language] && translations[language][key]) {
+      return translations[language][key];
+    }
+    // Fallback to English
+    return translations.en[key] || key;
   };
 
   const handleSetLanguage = (lang: Language) => {
