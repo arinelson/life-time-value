@@ -18,13 +18,13 @@ const countryToLanguage: Record<string, Language> = {
   'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'VE': 'es', 'CL': 'es',
   
   // Italian speaking countries
-  'IT': 'it', 'CH': 'it',
+  'IT': 'it', 'SM': 'it', // Removed duplicate 'CH' from Italian
   
   // German speaking countries
-  'DE': 'de', 'AT': 'de', 'CH': 'de',
+  'DE': 'de', 'AT': 'de', 'LI': 'de', // Modified 'CH' handling
   
   // French speaking countries
-  'FR': 'fr', 'BE': 'fr', 'CH': 'fr', 'CA': 'fr', 'LU': 'fr',
+  'FR': 'fr', 'BE': 'fr', 'LU': 'fr', 'MC': 'fr', // Removed duplicate 'CA' and 'CH'
   
   // Russian speaking countries
   'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
@@ -36,7 +36,10 @@ const countryToLanguage: Record<string, Language> = {
   'JP': 'ja',
   
   // Indonesian speaking countries
-  'ID': 'id'
+  'ID': 'id',
+  
+  // Switzerland (special case - multiple languages)
+  'CH': 'de', // Default to German for Switzerland
 };
 
 export function useIpLanguageDetection() {
