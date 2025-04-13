@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 import { getGridDimensions, getDateFromIndex } from "@/utils/timeCalculations";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   CalendarDays, 
   CalendarRange, 
@@ -25,6 +27,7 @@ export function TimeCanvas() {
   
   const [grid, setGrid] = useState<{ rows: number, cols: number }>({ rows: 0, cols: 0 });
   const canvasRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     if (birthDate && totalUnits > 0) {
@@ -80,6 +83,24 @@ export function TimeCanvas() {
     return format(date, "PP");
   };
 
+  // Calculate if we need scroll based on time unit
+  const needsScroll = () => {
+    if (timeUnit === "days" || 
+       (isMobile && (timeUnit === "weeks" || timeUnit === "months")) || 
+       totalUnits > 100) {
+      return true;
+    }
+    return false;
+  };
+  
+  // Calculate dynamic height based on time unit
+  const getCanvasHeight = () => {
+    if (timeUnit === "years") return "auto";
+    if (timeUnit === "months") return isMobile ? "500px" : "auto";
+    if (timeUnit === "weeks") return isMobile ? "500px" : "auto";
+    return "500px"; // For days, always use fixed height with scroll
+  };
+
   if (!birthDate) {
     return null;
   }
@@ -96,28 +117,49 @@ export function TimeCanvas() {
         </div>
       </div>
 
-      <div 
-        className="canvas-grid border rounded-lg p-4 overflow-y-auto"
-        style={{ 
-          gridTemplateRows: `repeat(${grid.rows}, minmax(8px, 1fr))`,
-          gridTemplateColumns: `repeat(${grid.cols}, minmax(8px, 1fr))`,
-          maxWidth: '100%',
-          height: 'auto',
-          maxHeight: '70vh',
-          overflowX: 'hidden'
-        }}
-      >
-        {Array.from({ length: totalUnits }).map((_, index) => (
-          <div
-            key={index}
-            className={`canvas-cell ${getCellClass(index)}`}
-            title={getCellTooltip(index)}
-            data-index={index}
+      {needsScroll() ? (
+        <ScrollArea className="border rounded-lg p-4" style={{ height: getCanvasHeight() }}>
+          <div 
+            className="canvas-grid"
+            style={{ 
+              gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
+              gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
+              width: isMobile ? `${grid.cols * 25}px` : '100%'
+            }}
           >
-            {getCellContent(index)}
+            {Array.from({ length: totalUnits }).map((_, index) => (
+              <div
+                key={index}
+                className={`canvas-cell ${getCellClass(index)}`}
+                title={getCellTooltip(index)}
+                data-index={index}
+              >
+                {getCellContent(index)}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </ScrollArea>
+      ) : (
+        <div 
+          className="canvas-grid border rounded-lg p-4"
+          style={{ 
+            gridTemplateRows: `repeat(${grid.rows}, minmax(20px, 1fr))`,
+            gridTemplateColumns: `repeat(${grid.cols}, minmax(20px, 1fr))`,
+            width: '100%'
+          }}
+        >
+          {Array.from({ length: totalUnits }).map((_, index) => (
+            <div
+              key={index}
+              className={`canvas-cell ${getCellClass(index)}`}
+              title={getCellTooltip(index)}
+              data-index={index}
+            >
+              {getCellContent(index)}
+            </div>
+          ))}
+        </div>
+      )}
       
       <div className="mt-4 flex gap-2 items-center justify-center text-sm text-muted-foreground">
         <div className="flex items-center gap-1">

@@ -73,12 +73,17 @@ export function getDateFromIndex(birthDate: Date, index: number, unit: TimeUnit)
 export function getGridDimensions(totalUnits: number): { rows: number; cols: number } {
   // Determine a reasonable grid layout based on total units
   if (totalUnits <= 100) {
-    return { rows: 10, cols: 10 }; // 10x10 for years
+    // For years - optimize for better display, square-ish grid
+    const squareSide = Math.ceil(Math.sqrt(totalUnits));
+    return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
   } else if (totalUnits <= 1200) {
-    return { rows: 30, cols: Math.ceil(totalUnits / 30) }; // For months
+    // For months - create a grid with more columns than rows
+    return { rows: 20, cols: Math.ceil(totalUnits / 20) }; 
   } else if (totalUnits <= 5200) {
-    return { rows: 52, cols: Math.ceil(totalUnits / 52) }; // For weeks
+    // For weeks - create a grid with more columns than rows
+    return { rows: 40, cols: Math.ceil(totalUnits / 40) };
   } else {
-    return { rows: 73, cols: Math.ceil(totalUnits / 73) }; // For days
+    // For days - create a scrollable grid
+    return { rows: 50, cols: Math.ceil(totalUnits / 50) };
   }
 }

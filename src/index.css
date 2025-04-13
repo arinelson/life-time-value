@@ -92,13 +92,13 @@
   /* TimeCanvas Grid Styles */
   .canvas-grid {
     @apply grid gap-1 transition-all;
-    overflow-x: hidden;
+    min-width: min-content;
   }
   
   .canvas-cell {
     @apply rounded-sm w-full h-full transition-colors duration-300 flex items-center justify-center text-xs;
-    min-width: 8px;
-    min-height: 8px;
+    min-width: 20px;
+    min-height: 20px;
   }
   
   .canvas-past {
@@ -121,9 +121,14 @@
     @apply bg-canvas-important;
   }
 
-  /* Conteúdo principal */
+  /* Main content */
   #root, .container, main {
     max-width: 100vw;
     overflow-x: hidden;
+  }
+  
+  /* Make ScrollArea work better with our canvas */
+  [data-radix-scroll-area-viewport] {
+    width: 100% !important;
   }
 }
