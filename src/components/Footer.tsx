@@ -13,12 +13,12 @@ export function Footer() {
         <p className="text-sm text-muted-foreground text-center">
           {t("inspiration")}{" "}
           <a 
-            href="https://www.bryanbraun.com/your-life/" 
+            href="https://instagram.com/arinelson.me" 
             target="_blank" 
             rel="noopener noreferrer"
             className="underline hover:text-primary transition-colors"
           >
-            bryanbraun.com/your-life
+            ARINELSON SANTOS
           </a>
         </p>
       </div>
