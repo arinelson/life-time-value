@@ -7,24 +7,24 @@ import { useState, useEffect } from "react";
 import { getRandomQuote } from "@/utils/lifeQuotes";
 
 export function TimeProgress() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { birthDate, lifeExpectancy, elapsedUnits, totalUnits } = useTimeCanvas();
   const [quote, setQuote] = useState<string>("");
   
-  // Atualiza a citação quando os dados mudam
+  // Update quote when data or language changes
   useEffect(() => {
     if (birthDate) {
-      setQuote(getRandomQuote());
+      setQuote(getRandomQuote(language));
     }
-  }, [birthDate, lifeExpectancy, totalUnits]);
+  }, [birthDate, lifeExpectancy, totalUnits, language]);
 
-  // Calcular porcentagem do tempo vivido
+  // Calculate percentage of time lived
   const percentElapsed = Math.min(100, Math.round((elapsedUnits / totalUnits) * 100)) || 0;
   const percentRemaining = 100 - percentElapsed;
 
   if (!birthDate) return null;
 
-  // Calcular datas importantes
+  // Calculate important dates
   const now = new Date();
   const birthYear = birthDate.getFullYear();
   const expectedEndYear = birthYear + lifeExpectancy;
@@ -57,7 +57,7 @@ export function TimeProgress() {
         </div>
       </div>
       
-      {/* Citação filosófica */}
+      {/* Philosophical quote */}
       {quote && (
         <div className="mt-2 border-t pt-4">
           <blockquote className="italic text-center text-muted-foreground px-4">
