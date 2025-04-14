@@ -1,3 +1,4 @@
+
 import React, { useMemo, useCallback, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -40,6 +41,11 @@ export function GridView({
     }
   }, [totalUnits, timeUnit]);
 
+  // FIXED: Get the current year regardless of whether birthday has occurred
+  const currentYear = useMemo(() => {
+    return new Date().getFullYear();
+  }, []);
+
   // Memoize cell class determination
   const getCellClass = useCallback((index: number) => {
     if (index === elapsedUnits) {
@@ -51,6 +57,7 @@ export function GridView({
     }
   }, [elapsedUnits]);
 
+  // Fixed: Correctly highlight current year in grid view
   const getCellContent = useCallback((index: number) => {
     if (!birthDate) return null;
 
@@ -71,24 +78,34 @@ export function GridView({
     return format(date, "PP");
   }, [birthDate, timeUnit]);
 
+  // FIXED: Highlight current year cell regardless of birthday status
+  const isCurrentYear = useCallback((cellYear: number) => {
+    return cellYear === currentYear;
+  }, [currentYear]);
+
   // Render all cells for completeness
   const renderAllCells = useMemo(() => {
     const cells = [];
     
     for (let i = 0; i < totalUnits; i++) {
+      const content = getCellContent(i);
+      const cellClass = timeUnit === "years" && content && isCurrentYear(content) 
+        ? "canvas-present" 
+        : getCellClass(i);
+      
       cells.push(
         <div
           key={i}
-          className={`canvas-cell ${getCellClass(i)}`}
+          className={`canvas-cell ${cellClass}`}
           title={getCellTooltip(i)}
           data-index={i}
         >
-          {getCellContent(i)}
+          {content}
         </div>
       );
     }
     return cells;
-  }, [totalUnits, getCellClass, getCellContent, getCellTooltip]);
+  }, [totalUnits, getCellClass, getCellContent, getCellTooltip, timeUnit, isCurrentYear]);
 
   // Auto-scroll to present cell on mount and when elapsedUnits changes
   useEffect(() => {
