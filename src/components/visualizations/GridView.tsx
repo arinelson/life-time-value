@@ -24,16 +24,7 @@ export function GridView({
   const isInitialRender = useRef(true);
 
   const grid = useMemo(() => {
-    if (timeUnit === "years") {
-      const squareSide = Math.ceil(Math.sqrt(totalUnits));
-      return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
-    } else if (timeUnit === "months") {
-      return { rows: Math.min(12, Math.ceil(totalUnits / 12)), cols: 12 };
-    } else if (timeUnit === "weeks") {
-      return { rows: Math.ceil(totalUnits / 52), cols: 52 };
-    } else {
-      return { rows: Math.ceil(totalUnits / 30), cols: 30 };
-    }
+    return getGridDimensions(totalUnits, timeUnit);
   }, [totalUnits, timeUnit]);
 
   const currentYear = useMemo(() => {

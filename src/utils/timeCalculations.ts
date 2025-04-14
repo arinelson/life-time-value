@@ -55,7 +55,7 @@ export function getGridDimensions(totalUnits: number, unit: TimeUnit): { rows: n
     return { rows: Math.min(12, Math.ceil(totalUnits / 12)), cols: 12 };
   } else if (unit === "weeks") {
     return { rows: Math.ceil(totalUnits / 52), cols: 52 };
-  } else {
+  } else { // days
     return { rows: Math.ceil(totalUnits / 30), cols: 30 };
   }
 }
