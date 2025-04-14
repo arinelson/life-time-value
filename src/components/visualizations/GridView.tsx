@@ -46,18 +46,48 @@ export function GridView({
     return new Date().getFullYear();
   }, []);
 
+  // FIXED: Calculate years lived precisely
+  const yearsLived = useMemo(() => {
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const hasBirthdayOccurred = 
+      today.getMonth() > birthDate.getMonth() || 
+      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+    
+    return hasBirthdayOccurred ? age : age - 1;
+  }, [birthDate]);
+
   // Memoize cell class determination
-  const getCellClass = useCallback((index: number) => {
-    if (index === elapsedUnits) {
-      return "canvas-present";
-    } else if (index < elapsedUnits) {
-      return "canvas-past";
-    } else {
+  const getCellClass = useCallback((index: number, cellYear?: number) => {
+    // If it's the current year (including before birthday)
+    if (cellYear === currentYear) {
+      // If it's the exact elapsed unit, mark as present
+      if (index === elapsedUnits) {
+        return "canvas-present";
+      }
+      // If it's before elapsed units, mark as past
+      if (index < elapsedUnits) {
+        return "canvas-past";
+      }
+      // If it's after elapsed units, mark as future
       return "canvas-future";
     }
-  }, [elapsedUnits]);
+    
+    // If it's a past year, mark as past
+    if (cellYear && cellYear < currentYear) {
+      return "canvas-past";
+    }
+    
+    // If it's a future year, mark as future
+    if (cellYear && cellYear > currentYear) {
+      return "canvas-future";
+    }
+    
+    // Default fallback
+    return "";
+  }, [elapsedUnits, currentYear]);
 
-  // Fixed: Correctly highlight current year in grid view
+  // Fixed: Correctly get cell content for years
   const getCellContent = useCallback((index: number) => {
     if (!birthDate) return null;
 
@@ -78,20 +108,14 @@ export function GridView({
     return format(date, "PP");
   }, [birthDate, timeUnit]);
 
-  // FIXED: Highlight current year cell regardless of birthday status
-  const isCurrentYear = useCallback((cellYear: number) => {
-    return cellYear === currentYear;
-  }, [currentYear]);
-
   // Render all cells for completeness
   const renderAllCells = useMemo(() => {
     const cells = [];
     
     for (let i = 0; i < totalUnits; i++) {
       const content = getCellContent(i);
-      const cellClass = timeUnit === "years" && content && isCurrentYear(content) 
-        ? "canvas-present" 
-        : getCellClass(i);
+      
+      const cellClass = getCellClass(i, content);
       
       cells.push(
         <div
@@ -105,7 +129,7 @@ export function GridView({
       );
     }
     return cells;
-  }, [totalUnits, getCellClass, getCellContent, getCellTooltip, timeUnit, isCurrentYear]);
+  }, [totalUnits, getCellClass, getCellContent, getCellTooltip]);
 
   // Auto-scroll to present cell on mount and when elapsedUnits changes
   useEffect(() => {
@@ -161,3 +185,6 @@ export function GridView({
     </ScrollArea>
   );
 }
+
+export default GridView;
+
