@@ -40,8 +40,9 @@ export function calculateElapsedUnits(birthDate: Date, unit: TimeUnit): number {
     case "months":
       return differenceInMonths(todayStart, birthStart);
     case "years":
-      // Calculate full years including the year that hasn't been completed yet
-      return differenceInYears(todayStart, birthStart);
+      // For years, we want the current year to be highlighted as present
+      // even if the birthday hasn't occurred yet this year
+      return now.getFullYear() - birthDate.getFullYear();
     default:
       return 0;
   }

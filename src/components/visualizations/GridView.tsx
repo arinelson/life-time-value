@@ -32,14 +32,29 @@ export function GridView({
   }, []);
 
   const getCellClass = useCallback((index: number) => {
-    if (index === elapsedUnits) {
-      return "canvas-present";
+    // For years, we need to ensure the current year is marked as present
+    if (timeUnit === "years") {
+      const date = getDateFromIndex(birthDate, index, timeUnit);
+      const year = date.getFullYear();
+      
+      if (year === currentYear) {
+        return "canvas-present";
+      }
+      if (year < currentYear) {
+        return "canvas-past";
+      }
+      return "canvas-future";
+    } else {
+      // For other time units, use the elapsed units for comparison
+      if (index === elapsedUnits) {
+        return "canvas-present";
+      }
+      if (index < elapsedUnits) {
+        return "canvas-past";
+      }
+      return "canvas-future";
     }
-    if (index < elapsedUnits) {
-      return "canvas-past";
-    }
-    return "canvas-future";
-  }, [elapsedUnits]);
+  }, [elapsedUnits, birthDate, timeUnit, currentYear]);
 
   const getCellContent = useCallback((index: number) => {
     if (!birthDate) return null;
