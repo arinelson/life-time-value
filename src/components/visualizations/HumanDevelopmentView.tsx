@@ -2,9 +2,9 @@
 import React, { useMemo } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { TimeUnit } from "@/utils/timeCalculations";
-import { ChartContainer } from "@/components/ui/chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTheme } from "@/context/ThemeProvider";
+import { Card } from "@/components/ui/card";
 
 interface HumanDevelopmentViewProps {
   elapsedUnits: number;
@@ -145,7 +145,7 @@ export function HumanDevelopmentView({
   };
   
   return (
-    <ChartContainer className="w-full"> 
+    <div className="w-full">
       <div className="mb-6 text-center">
         <h3 className="text-xl font-bold mb-1">{t("humanDevelopment")}</h3>
         <p className="text-sm text-muted-foreground mb-4">{t("sevenYearsCycle")}</p>
@@ -153,7 +153,7 @@ export function HumanDevelopmentView({
         {currentPhase && (
           <div className="mb-6">
             <p className="text-lg font-semibold">
-              {t("currentPhase")}: <span className="text-primary">{t(currentPhase.title)}</span> ({currentPhase.age} {t("years")})
+              {t("currentPhase")}: <span className="text-primary">{t(currentPhase.title as any)}</span> ({currentPhase.age} {t("years")})
             </p>
             <p className="text-sm text-muted-foreground mt-1">
               {currentPhaseCompletion}% {t("completed")}
@@ -166,7 +166,7 @@ export function HumanDevelopmentView({
             </div>
             {nextPhase && timeUntilNextPhase !== null && (
               <p className="text-sm mt-2">
-                {t("nextPhaseIn")} <strong>{timeUntilNextPhase}</strong> {t("years")}: {t(nextPhase.title)}
+                {t("nextPhaseIn")} <strong>{timeUntilNextPhase}</strong> {t("years")}: {t(nextPhase.title as any)}
               </p>
             )}
           </div>
@@ -183,7 +183,7 @@ export function HumanDevelopmentView({
                 className="flex-1 text-center border-t-2 border-dashed pt-2"
                 style={{borderColor: theme === 'dark' ? '#666666' : '#CCCCCC'}}
               >
-                <p className="text-xs font-medium">{t(phase.title)}</p>
+                <p className="text-xs font-medium">{t(phase.title as any)}</p>
                 <p className="text-[10px] text-muted-foreground">{phase.range}</p>
               </div>
             ))}
@@ -209,19 +209,19 @@ export function HumanDevelopmentView({
                   }}
                 >
                   <div className="text-center">
-                    <h4 className="text-sm font-bold whitespace-nowrap">{t(phase.title)}</h4>
+                    <h4 className="text-sm font-bold whitespace-nowrap">{t(phase.title as any)}</h4>
                     <p className="text-xs mt-1">{phase.age} {t("years")}</p>
                     {phase.crisis && (
                       <p className="text-[11px] mt-2 p-1 bg-opacity-50 rounded">
-                        {t(phase.crisis)}
+                        {t(phase.crisis as any)}
                       </p>
                     )}
                   </div>
                   
                   <div className="text-center mt-auto">
-                    <p className="text-[11px] opacity-80">{t(phase.description)}</p>
-                    <p className="text-[10px] mt-1 font-medium">{t(phase.environment)}</p>
-                    <p className="text-[10px] mt-2 italic">"{t(phase.goalText)}"</p>
+                    <p className="text-[11px] opacity-80">{t(phase.description as any)}</p>
+                    <p className="text-[10px] mt-1 font-medium">{t(phase.environment as any)}</p>
+                    <p className="text-[10px] mt-2 italic">"{t(phase.goalText as any)}"</p>
                   </div>
                   
                   {isCurrent && (
@@ -256,7 +256,7 @@ export function HumanDevelopmentView({
       <div className="mt-4 text-center">
         <p className="text-sm italic">{t("sevenYearCycleMessage")}</p>
       </div>
-    </ChartContainer>
+    </div>
   );
 }
 
