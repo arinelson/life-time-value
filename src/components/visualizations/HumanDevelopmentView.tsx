@@ -41,14 +41,21 @@ export function HumanDevelopmentView({
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   
-  // Calculate current age and determine current phase
+  // Calculate current age and determine current phase - FIXED AGE CALCULATION
   const currentAge = useMemo(() => {
     if (!birthDate) return 0;
     const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
     
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    // Get calendar year difference
+    let age = today.getFullYear() - birthDate.getFullYear();
+    
+    // Check if birthday has occurred this year
+    const hasBirthdayOccurred = 
+      today.getMonth() > birthDate.getMonth() || 
+      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+    
+    // If birthday hasn't occurred yet this year, subtract one year
+    if (!hasBirthdayOccurred) {
       age--;
     }
     
@@ -57,7 +64,7 @@ export function HumanDevelopmentView({
   
   // Get the current phase based on age
   const currentPhase = useMemo(() => {
-    if (!currentAge) return null;
+    if (!currentAge && currentAge !== 0) return null;
     
     return lifePhasesData.find(phase => {
       const [min, max] = phase.age.split(" - ").map(Number);
@@ -74,7 +81,7 @@ export function HumanDevelopmentView({
   
   // Calculate time remaining until next phase
   const timeUntilNextPhase = useMemo(() => {
-    if (!nextPhase || !currentAge) return null;
+    if (!nextPhase || (currentAge !== 0 && !currentAge)) return null;
     
     const [, currentPhaseEnd] = currentPhase?.age.split(" - ").map(Number) || [0, 0];
     return currentPhaseEnd - currentAge;

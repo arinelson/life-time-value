@@ -1,3 +1,4 @@
+
 import { differenceInDays, differenceInWeeks, differenceInMonths, differenceInYears, addDays, addWeeks, addMonths, addYears, isSameDay, isBefore } from "date-fns";
 
 export type TimeUnit = "days" | "weeks" | "months" | "years";
@@ -33,17 +34,16 @@ export function calculateElapsedUnits(birthDate: Date, unit: TimeUnit): number {
     case "months":
       return differenceInMonths(today, birthDate);
     case "years": {
-      // Get the raw difference in years
+      // Get calendar year difference 
       const yearsDiff = differenceInYears(today, birthDate);
       
-      // Create a date with the same month/day as birth but in the current year
-      const anniversaryThisYear = new Date(today.getFullYear(), 
-                                          birthDate.getMonth(), 
-                                          birthDate.getDate());
+      // Check if the birthday has occurred this year
+      const hasBirthdayOccurred = 
+        today.getMonth() > birthDate.getMonth() || 
+        (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
       
-      // Check if the birthday hasn't happened yet this year
-      // If today is before the anniversary this year, subtract one year
-      if (isBefore(today, anniversaryThisYear)) {
+      // If birthday hasn't happened yet this year, subtract one year
+      if (!hasBirthdayOccurred) {
         return yearsDiff - 1;
       }
       

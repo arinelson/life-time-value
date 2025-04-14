@@ -29,15 +29,16 @@ export function TimeProgress() {
   const birthYear = birthDate.getFullYear();
   const expectedEndYear = birthYear + lifeExpectancy;
   
-  // Calculate exact age
-  const yearsElapsed = Math.floor((now.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-  const nextBirthday = new Date(birthDate);
-  nextBirthday.setFullYear(now.getFullYear());
+  // Calculate exact age - FIXED AGE CALCULATION
+  const hasBirthdayOccurred = 
+    now.getMonth() > birthDate.getMonth() || 
+    (now.getMonth() === birthDate.getMonth() && now.getDate() >= birthDate.getDate());
+    
+  const yearsElapsed = now.getFullYear() - birthDate.getFullYear() - (hasBirthdayOccurred ? 0 : 1);
   
-  // If birthday already happened this year, set to next year
-  if (nextBirthday < now) {
-    nextBirthday.setFullYear(now.getFullYear() + 1);
-  }
+  const nextBirthday = new Date(birthDate);
+  // Set the year of the next birthday
+  nextBirthday.setFullYear(hasBirthdayOccurred ? now.getFullYear() + 1 : now.getFullYear());
   
   // Calculate months and days until next birthday
   const monthsUntilNextBirthday = differenceInMonths(nextBirthday, now);
