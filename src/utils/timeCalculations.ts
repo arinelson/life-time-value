@@ -1,21 +1,23 @@
 
-import { differenceInDays, differenceInWeeks, differenceInMonths, differenceInYears, addDays, addWeeks, addMonths, addYears, isSameDay, isBefore } from "date-fns";
+import {
+  differenceInDays,
+  differenceInMonths,
+  differenceInWeeks,
+  differenceInYears,
+  startOfDay,
+  getDaysInMonth
+} from "date-fns";
 
 export type TimeUnit = "days" | "weeks" | "months" | "years";
 
 export function calculateTotalUnits(birthDate: Date, lifeExpectancy: number, unit: TimeUnit): number {
-  const endDate = new Date(birthDate);
-  
   switch (unit) {
     case "days":
-      endDate.setFullYear(birthDate.getFullYear() + lifeExpectancy);
-      return differenceInDays(endDate, birthDate);
+      return lifeExpectancy * 365.25;
     case "weeks":
-      endDate.setFullYear(birthDate.getFullYear() + lifeExpectancy);
-      return differenceInWeeks(endDate, birthDate);
+      return lifeExpectancy * 52;
     case "months":
-      endDate.setFullYear(birthDate.getFullYear() + lifeExpectancy);
-      return differenceInMonths(endDate, birthDate);
+      return lifeExpectancy * 12;
     case "years":
       return lifeExpectancy;
     default:
@@ -24,80 +26,57 @@ export function calculateTotalUnits(birthDate: Date, lifeExpectancy: number, uni
 }
 
 export function calculateElapsedUnits(birthDate: Date, unit: TimeUnit): number {
-  const today = new Date();
+  const now = new Date();
+  
+  // Start of the current day for consistent calculations
+  const todayStart = startOfDay(now);
+  const birthStart = startOfDay(birthDate);
   
   switch (unit) {
     case "days":
-      return differenceInDays(today, birthDate);
+      return differenceInDays(todayStart, birthStart);
     case "weeks":
-      return differenceInWeeks(today, birthDate);
+      return differenceInWeeks(todayStart, birthStart);
     case "months":
-      return differenceInMonths(today, birthDate);
-    case "years": {
-      // Get calendar year difference 
-      const yearsDiff = differenceInYears(today, birthDate);
-      
-      // Check if the birthday has occurred this year
-      const hasBirthdayOccurred = 
-        today.getMonth() > birthDate.getMonth() || 
-        (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
-      
-      // If birthday hasn't happened yet this year, subtract one year
-      if (!hasBirthdayOccurred) {
-        return yearsDiff - 1;
-      }
-      
-      return yearsDiff;
-    }
+      return differenceInMonths(todayStart, birthStart);
+    case "years":
+      // Calculate full years including the year that hasn't been completed yet
+      return differenceInYears(todayStart, birthStart);
     default:
       return 0;
   }
 }
 
-export function getUnitIndex(birthDate: Date, date: Date, unit: TimeUnit): number {
-  switch (unit) {
-    case "days":
-      return differenceInDays(date, birthDate);
-    case "weeks":
-      return differenceInWeeks(date, birthDate);
-    case "months":
-      return differenceInMonths(date, birthDate);
-    case "years":
-      return differenceInYears(date, birthDate);
-    default:
-      return 0;
+export function getGridDimensions(totalUnits: number, unit: TimeUnit): { rows: number; cols: number } {
+  if (unit === "years") {
+    const squareSide = Math.ceil(Math.sqrt(totalUnits));
+    return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
+  } else if (unit === "months") {
+    return { rows: Math.min(12, Math.ceil(totalUnits / 12)), cols: 12 };
+  } else if (unit === "weeks") {
+    return { rows: Math.ceil(totalUnits / 52), cols: 52 };
+  } else {
+    return { rows: Math.ceil(totalUnits / 30), cols: 30 };
   }
 }
 
 export function getDateFromIndex(birthDate: Date, index: number, unit: TimeUnit): Date {
+  const date = new Date(birthDate);
+  
   switch (unit) {
     case "days":
-      return addDays(birthDate, index);
+      date.setDate(date.getDate() + index);
+      break;
     case "weeks":
-      return addWeeks(birthDate, index);
+      date.setDate(date.getDate() + index * 7);
+      break;
     case "months":
-      return addMonths(birthDate, index);
+      date.setMonth(date.getMonth() + index);
+      break;
     case "years":
-      return addYears(birthDate, index);
-    default:
-      return new Date(birthDate);
+      date.setFullYear(date.getFullYear() + index);
+      break;
   }
-}
-
-export function getGridDimensions(totalUnits: number): { rows: number; cols: number } {
-  // Determine a reasonable grid layout based on total units
-  if (totalUnits <= 100) {
-    // For years - optimize for better display, square-ish grid
-    const squareSide = Math.ceil(Math.sqrt(totalUnits));
-    return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
-  } else if (totalUnits <= 1200) {
-    // For months - create a grid with more columns than rows
-    return { rows: 20, cols: Math.ceil(totalUnits / 20) }; 
-  } else if (totalUnits <= 5200) {
-    // For weeks - create a grid with more columns than rows
-    return { rows: 40, cols: Math.ceil(totalUnits / 40) };
-  } else {
-    // For days - create a scrollable grid
-    return { rows: 50, cols: Math.ceil(totalUnits / 50) };
-  }
+  
+  return date;
 }

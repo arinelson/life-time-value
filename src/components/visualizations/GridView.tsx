@@ -1,3 +1,4 @@
+
 import React, { useMemo, useCallback, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -39,37 +40,15 @@ export function GridView({
     return new Date().getFullYear();
   }, []);
 
-  const yearsLived = useMemo(() => {
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const hasBirthdayOccurred = 
-      today.getMonth() > birthDate.getMonth() || 
-      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
-    
-    return hasBirthdayOccurred ? age : age - 1;
-  }, [birthDate]);
-
-  const getCellClass = useCallback((index: number, cellYear?: number) => {
-    if (cellYear === currentYear) {
-      if (index === elapsedUnits) {
-        return "canvas-present";
-      }
-      if (index < elapsedUnits) {
-        return "canvas-past";
-      }
-      return "canvas-future";
+  const getCellClass = useCallback((index: number) => {
+    if (index === elapsedUnits) {
+      return "canvas-present";
     }
-    
-    if (cellYear && cellYear < currentYear) {
+    if (index < elapsedUnits) {
       return "canvas-past";
     }
-    
-    if (cellYear && cellYear > currentYear) {
-      return "canvas-future";
-    }
-    
-    return "";
-  }, [elapsedUnits, currentYear]);
+    return "canvas-future";
+  }, [elapsedUnits]);
 
   const getCellContent = useCallback((index: number) => {
     if (!birthDate) return null;
@@ -94,7 +73,7 @@ export function GridView({
     
     for (let i = 0; i < totalUnits; i++) {
       const content = getCellContent(i);
-      const cellClass = getCellClass(i, content);
+      const cellClass = getCellClass(i);
       
       cells.push(
         <div
