@@ -16,48 +16,43 @@ import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 export function BirthdayInput() {
   const { t } = useLanguage();
   const { birthDate, setBirthDate } = useTimeCanvas();
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Update the context when the date changes
-  useEffect(() => {
+  // Handle date selection from calendar
+  const handleDateSelect = (date: Date | undefined) => {
     if (date) {
       setBirthDate(date);
+      setIsOpen(false);
     }
-  }, [date, setBirthDate]);
-
-  // Make sure birthDate gets updated if it's set from outside
-  useEffect(() => {
-    if (birthDate && (!date || birthDate.getTime() !== date.getTime())) {
-      setDate(birthDate);
-    }
-  }, [birthDate, date]);
+  };
 
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-medium">{t("birthday")}</label>
-      <Popover>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
             className={cn(
               "w-full justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              !birthDate && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PP") : t("birthday")}
+            {birthDate ? format(birthDate, "PP") : t("birthday")}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            selected={date}
-            onSelect={setDate}
+            selected={birthDate || undefined}
+            onSelect={handleDateSelect}
             initialFocus
             disabled={(date) => date > new Date()}
             captionLayout="dropdown-buttons"
             fromYear={1900}
             toYear={new Date().getFullYear()}
+            className="pointer-events-auto"
           />
         </PopoverContent>
       </Popover>
