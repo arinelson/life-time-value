@@ -2,7 +2,7 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 import { Progress } from "@/components/ui/progress";
-import { format } from "date-fns";
+import { format, differenceInMonths, differenceInDays } from "date-fns";
 import { useState, useEffect } from "react";
 import { getRandomQuote } from "@/utils/lifeQuotes";
 
@@ -28,7 +28,27 @@ export function TimeProgress() {
   const now = new Date();
   const birthYear = birthDate.getFullYear();
   const expectedEndYear = birthYear + lifeExpectancy;
-  const yearsElapsed = now.getFullYear() - birthYear;
+  
+  // Calculate exact age
+  const yearsElapsed = Math.floor((now.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+  const nextBirthday = new Date(birthDate);
+  nextBirthday.setFullYear(now.getFullYear());
+  
+  // If birthday already happened this year, set to next year
+  if (nextBirthday < now) {
+    nextBirthday.setFullYear(now.getFullYear() + 1);
+  }
+  
+  // Calculate months and days until next birthday
+  const monthsUntilNextBirthday = differenceInMonths(nextBirthday, now);
+  let daysUntilNextBirthday = differenceInDays(nextBirthday, now) % 30; // Approximate
+  
+  // Format the age display string
+  let ageDisplay = `${yearsElapsed} ${t("yearsOld")}`;
+  if (monthsUntilNextBirthday > 0 || daysUntilNextBirthday > 0) {
+    ageDisplay += ` (${monthsUntilNextBirthday > 0 ? `${monthsUntilNextBirthday} ${t("months")} ` : ''}${daysUntilNextBirthday > 0 ? `${daysUntilNextBirthday} ${t("days")}` : ''} ${t("untilNextBirthday")})`;
+  }
+  
   const yearsRemaining = lifeExpectancy - yearsElapsed;
 
   return (
@@ -41,7 +61,7 @@ export function TimeProgress() {
           </div>
           <Progress value={percentElapsed} className="h-2" />
           <p className="text-sm text-muted-foreground">
-            {t("born")}: {format(birthDate, "PP")} ({yearsElapsed} {t("yearsOld")})
+            {t("born")}: {format(birthDate, "PP")} ({ageDisplay})
           </p>
         </div>
         
@@ -52,7 +72,7 @@ export function TimeProgress() {
           </div>
           <Progress value={percentRemaining} className="h-2" />
           <p className="text-sm text-muted-foreground">
-            {t("lifeExpectancy")}: {expectedEndYear} ({yearsRemaining} {t("yearsOld")})
+            {t("lifeExpectancy")}: {expectedEndYear} ({yearsRemaining} {t("yearsRemaining")})
           </p>
         </div>
       </div>
