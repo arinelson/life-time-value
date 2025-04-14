@@ -1,3 +1,4 @@
+
 export type Language = "en" | "pt" | "es" | "it" | "de" | "fr" | "ru" | "zh" | "ja" | "id";
 
 export const languages = [
@@ -43,6 +44,8 @@ const baseTranslations = {
     timeRemaining: "Time Remaining",
     born: "Born on",
     yearsOld: "years",
+    yearsRemaining: "years remaining",
+    untilNextBirthday: "until next birthday",
     footer: "© 2025 TimeCanvas",
     inspiration: "DESIGNED BY"
   },
@@ -67,6 +70,8 @@ const baseTranslations = {
     timeRemaining: "Tempo Restante",
     born: "Nasceu em",
     yearsOld: "anos",
+    yearsRemaining: "anos restantes",
+    untilNextBirthday: "até o próximo aniversário",
     footer: "© 2025 TimeCanvas",
     inspiration: "iDEALIZADO POR"
   },
@@ -91,6 +96,8 @@ const baseTranslations = {
     timeRemaining: "Tiempo Restante",
     born: "Nacido en",
     yearsOld: "años",
+    yearsRemaining: "años restantes",
+    untilNextBirthday: "hasta el próximo cumpleaños",
     footer: "© 2025 TimeCanvas",
     inspiration: "DISEÑADO POR"
   },
@@ -115,6 +122,8 @@ const baseTranslations = {
     timeRemaining: "Tempo Rimanente",
     born: "Nato il",
     yearsOld: "anni",
+    yearsRemaining: "anni rimanenti",
+    untilNextBirthday: "fino al prossimo compleanno",
     footer: "© 2025 TimeCanvas",
     inspiration: "PROGETTATO DA"
   },
@@ -139,6 +148,8 @@ const baseTranslations = {
     timeRemaining: "Verbleibende Zeit",
     born: "Geboren am",
     yearsOld: "Jahre",
+    yearsRemaining: "verbleibende Jahre",
+    untilNextBirthday: "bis zum nächsten Geburtstag",
     footer: "© 2025 TimeCanvas",
     inspiration: "DESIGN VON"
   },
@@ -163,6 +174,8 @@ const baseTranslations = {
     timeRemaining: "Temps restant",
     born: "Né(e) le",
     yearsOld: "ans",
+    yearsRemaining: "années restantes",
+    untilNextBirthday: "jusqu'au prochain anniversaire",
     footer: "© 2025 TimeCanvas",
     inspiration: "CONÇU PAR"
   },
@@ -187,6 +200,8 @@ const baseTranslations = {
     timeRemaining: "Осталось времени",
     born: "Родились",
     yearsOld: "лет",
+    yearsRemaining: "осталось лет",
+    untilNextBirthday: "до следующего дня рождения",
     footer: "© 2025 TimeCanvas",
     inspiration: "РАЗРАБОТАНО"
   },
@@ -211,6 +226,8 @@ const baseTranslations = {
     timeRemaining: "剩余时间",
     born: "出生于",
     yearsOld: "岁",
+    yearsRemaining: "剩余年限",
+    untilNextBirthday: "直到下一个生日",
     footer: "© 2025 时间画布",
     inspiration: "设计者"
   },
@@ -235,6 +252,8 @@ const baseTranslations = {
     timeRemaining: "残り時間",
     born: "生まれ",
     yearsOld: "歳",
+    yearsRemaining: "残りの年数",
+    untilNextBirthday: "次の誕生日まで",
     footer: "© 2025 タイムキャンバス",
     inspiration: "デザイン："
   },
@@ -259,6 +278,8 @@ const baseTranslations = {
     timeRemaining: "Waktu Tersisa",
     born: "Lahir pada",
     yearsOld: "tahun",
+    yearsRemaining: "tahun tersisa",
+    untilNextBirthday: "sampai ulang tahun berikutnya",
     footer: "© 2025 TimeCanvas",
     inspiration: "DIRANCANG OLEH"
   }
