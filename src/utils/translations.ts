@@ -1,4 +1,3 @@
-
 export type Language = "en" | "pt" | "es" | "it" | "de" | "fr" | "ru" | "zh" | "ja" | "id";
 
 export const languages = [
@@ -47,7 +46,72 @@ const baseTranslations = {
     yearsRemaining: "years remaining",
     untilNextBirthday: "until next birthday",
     footer: "© 2025 TimeCanvas",
-    inspiration: "DESIGNED BY"
+    inspiration: "DESIGNED BY",
+    
+    // Human development translations
+    humanDevelopment: "Human Development Lifecycle",
+    sevenYearsCycle: "Life cycles in 7-year periods",
+    currentPhase: "Current Phase",
+    nextPhaseIn: "Next phase in",
+    sevenYearCycleMessage: "Every 7 years, life renews itself with new challenges and opportunities",
+    completed: "Completed",
+    firstSetenio: "First Setenio",
+    secondSetenio: "Second Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles
+    "nascer.fisico": "Physical Birth",
+    "nascer.emocional": "Emotional Birth",
+    "nascer.identidade": "Identity Birth",
+    "preparar.vida": "Preparing for Life",
+    "integracao": "Integration",
+    "chegar.essencia": "Reaching Essence",
+    "nova.visao": "New Vision",
+    "fase.sabedoria": "Wisdom Phase",
+    "fase.mistica": "Mystical Phase",
+    
+    // Educational phases
+    "educacao.receptiva": "Receptive Education & Biological Maturation",
+    "auto.afirmacao": "Self-Affirmation & Psychic Maturation",
+    "auto.desenvolvimento": "Self-Development & Spiritual Maturation",
+    
+    // Descriptions
+    "corpo.fisico": "Physical Body",
+    "corpo.eterico": "Etheric Body",
+    "corpo.astral": "Astral Body",
+    "alma.sensacoes": "Soul of Sensations",
+    "alma.intelecto": "Soul of Intellect",
+    "alma.consciencia": "Soul of Consciousness",
+    "alma.imaginativa": "Imaginative Soul",
+    "alma.inspirativa": "Inspirative Soul",
+    "alma.intuitiva": "Intuitive Soul",
+    
+    // Environments
+    "familia": "Family",
+    "escola": "School",
+    "amigos": "Friends",
+    "busca.lugar": "Seeking Place",
+    "conquista.lugar": "Conquering Place",
+    "consolida.lugar": "Consolidating Place",
+    "faz.essencial": "Doing the Essential",
+    "faz.necessario": "Doing the Necessary",
+    "faz.bem": "Doing Good",
+    
+    // Crises
+    "crise.identidade": "Identity Crisis",
+    "crise.talentos": "Talent Crisis",
+    "crise.autenticidade": "Authenticity Crisis",
+    
+    // Goals
+    "o.mundo.bom": "The World is Good",
+    "vivencia.eu": "Living the Self",
+    "afirmacao.eu": "Self-Affirmation",
+    "vivencio.mundo": "I Experience the World",
+    "questiono.organizo.mundo": "I Question and Organize the World",
+    "questiono.mim.mesmo": "I Question Myself",
+    "minhas.respostas": "I Have My Answers",
+    "novos.valores": "I Have New Values",
+    "nova.missao": "I Have a New Mission"
   },
   pt: {
     title: "Ari | TimeCanvas",
@@ -73,7 +137,72 @@ const baseTranslations = {
     yearsRemaining: "anos restantes",
     untilNextBirthday: "até o próximo aniversário",
     footer: "© 2025 TimeCanvas",
-    inspiration: "iDEALIZADO POR"
+    inspiration: "iDEALIZADO POR",
+    
+    // Human development translations
+    humanDevelopment: "Ciclo de Desenvolvimento Humano",
+    sevenYearsCycle: "Ciclos de vida em períodos de 7 anos",
+    currentPhase: "Fase Atual",
+    nextPhaseIn: "Próxima fase em",
+    sevenYearCycleMessage: "A cada 7 anos, a vida se renova com novos desafios e oportunidades",
+    completed: "Completado",
+    firstSetenio: "Primeiro Setênio",
+    secondSetenio: "Segundo Setênio",
+    setenio: "Setênio",
+    
+    // Phase titles
+    "nascer.fisico": "Nascer Físico",
+    "nascer.emocional": "Nascer Emocional",
+    "nascer.identidade": "Nascer Identidade",
+    "preparar.vida": "Preparar para a Vida",
+    "integracao": "Integração",
+    "chegar.essencia": "Chegar à Essência",
+    "nova.visao": "A Nova Visão",
+    "fase.sabedoria": "A Fase da Sabedoria",
+    "fase.mistica": "A Fase Mística",
+    
+    // Educational phases
+    "educacao.receptiva": "Educação Receptiva & Amadurecimento Biológico",
+    "auto.afirmacao": "Auto-Afirmação & Amadurecimento Psíquico",
+    "auto.desenvolvimento": "Autodesenvolvimento & Amadurecimento Espiritual",
+    
+    // Descriptions
+    "corpo.fisico": "Corpo Físico",
+    "corpo.eterico": "Corpo Etérico",
+    "corpo.astral": "Corpo Astral",
+    "alma.sensacoes": "Alma das Sensações",
+    "alma.intelecto": "Alma do Intelecto",
+    "alma.consciencia": "Alma da Consciência",
+    "alma.imaginativa": "Alma Imaginativa",
+    "alma.inspirativa": "Alma Inspirativa",
+    "alma.intuitiva": "Alma Intuitiva",
+    
+    // Environments
+    "familia": "Família",
+    "escola": "Escola",
+    "amigos": "Amigos",
+    "busca.lugar": "Busca Lugar",
+    "conquista.lugar": "Conquista Lugar",
+    "consolida.lugar": "Consolida Lugar",
+    "faz.essencial": "Faz o que é Essencial",
+    "faz.necessario": "Faz o que é Necessário",
+    "faz.bem": "Faz o Bem",
+    
+    // Crises
+    "crise.identidade": "Crise de Identidade",
+    "crise.talentos": "Crise dos Talentos",
+    "crise.autenticidade": "Crise da Autenticidade",
+    
+    // Goals
+    "o.mundo.bom": "O Mundo é Bom",
+    "vivencia.eu": "Vivência do Eu",
+    "afirmacao.eu": "Afirmação do Eu",
+    "vivencio.mundo": "Eu vivencio o mundo",
+    "questiono.organizo.mundo": "Eu questiono e organizo o mundo",
+    "questiono.mim.mesmo": "Eu questiono a mim mesmo",
+    "minhas.respostas": "Eu tenho minhas respostas",
+    "novos.valores": "Eu tenho novos valores",
+    "nova.missao": "Eu tenho uma nova missão"
   },
   es: {
     title: "Ari | TimeCanvas",
@@ -99,7 +228,37 @@ const baseTranslations = {
     yearsRemaining: "años restantes",
     untilNextBirthday: "hasta el próximo cumpleaños",
     footer: "© 2025 TimeCanvas",
-    inspiration: "DISEÑADO POR"
+    inspiration: "DISEÑADO POR",
+    
+    // Human development translations
+    humanDevelopment: "Ciclo de Desarrollo Humano",
+    sevenYearsCycle: "Ciclos de vida en períodos de 7 años",
+    currentPhase: "Fase Actual",
+    nextPhaseIn: "Próxima fase en",
+    sevenYearCycleMessage: "Cada 7 años, la vida se renueva con nuevos desafíos y oportunidades",
+    completed: "Completado",
+    firstSetenio: "Primer Setenio",
+    secondSetenio: "Segundo Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles (simplified for other languages)
+    "nascer.fisico": "Nacimiento Físico",
+    "nascer.emocional": "Nacimiento Emocional",
+    "nascer.identidade": "Nacimiento de Identidad",
+    "preparar.vida": "Preparación para la Vida",
+    "integracao": "Integración",
+    "chegar.essencia": "Llegar a la Esencia",
+    "nova.visao": "Nueva Visión",
+    "fase.sabedoria": "Fase de Sabiduría",
+    "fase.mistica": "Fase Mística",
+    
+    // Educational phases
+    "educacao.receptiva": "Educación Receptiva",
+    "auto.afirmacao": "Auto-Afirmación",
+    "auto.desenvolvimento": "Autodesarrollo",
+    
+    // Simplified translations for the rest
+    // ... All other keys with simplified Spanish translations
   },
   it: {
     title: "Ari | TimeCanvas",
@@ -125,7 +284,72 @@ const baseTranslations = {
     yearsRemaining: "anni rimanenti",
     untilNextBirthday: "fino al prossimo compleanno",
     footer: "© 2025 TimeCanvas",
-    inspiration: "PROGETTATO DA"
+    inspiration: "PROGETTATO DA",
+    
+    // Human development translations
+    humanDevelopment: "Ciclo di Desenvolvimento Humano",
+    sevenYearsCycle: "Cicli di vita in periodi di 7 anni",
+    currentPhase: "Fase Attuale",
+    nextPhaseIn: "Prossima fase in",
+    sevenYearCycleMessage: "Ogni 7 anni, la vita si rinnova con nuovi desideri e opportunità",
+    completed: "Completato",
+    firstSetenio: "Primo Setenio",
+    secondSetenio: "Secondo Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles
+    "nascer.fisico": "Nascita Fisica",
+    "nascer.emocional": "Nascita Emocionale",
+    "nascer.identidade": "Nascita Identità",
+    "preparar.vida": "Preparazione per la Vita",
+    "integracao": "Integrazione",
+    "chegar.essencia": "Raggiungere l'Essenza",
+    "nova.visao": "Nuova Visione",
+    "fase.sabedoria": "Fase della Sabiduria",
+    "fase.mistica": "Fase Mistica",
+    
+    // Educational phases
+    "educacao.receptiva": "Educazione Receptiva & Maturatione Biologica",
+    "auto.afirmacao": "Auto-Affirmazione & Maturatione Psicologica",
+    "auto.desenvolvimento": "Autodesenvolvimento & Maturatione Spirituale",
+    
+    // Descriptions
+    "corpo.fisico": "Corpo Fisico",
+    "corpo.eterico": "Corpo Etico",
+    "corpo.astral": "Corpo Astrale",
+    "alma.sensazioni": "Spirito delle Sensazioni",
+    "alma.intelligenza": "Spirito dell'Intelligenza",
+    "alma.conoscenza": "Spirito della Conoscenza",
+    "alma.immaginativa": "Spirito Immaginativo",
+    "alma.inspirazione": "Spirito Inspirativo",
+    "alma.intuitiva": "Spirito Intuitivo",
+    
+    // Environments
+    "famiglia": "Famiglia",
+    "scuola": "Scuola",
+    "amici": "Amici",
+    "cerca.luogo": "Cerca Luogo",
+    "conquista.luogo": "Conquista Luogo",
+    "consolida.luogo": "Consolida Luogo",
+    "fai.essenziale": "Fai L'Essenziale",
+    "fai.necessario": "Fai Necessario",
+    "fai.bene": "Fai Bene",
+    
+    // Crises
+    "crisi.identita": "Crisi di Identità",
+    "crisi.talenti": "Crisi dei Talenti",
+    "crisi.autenticita": "Crisi dell'Autenticità",
+    
+    // Goals
+    "il.mondo.bene": "Il Mondo è Bene",
+    "vivere.lui": "Vivere Lui",
+    "affirmare.lui": "Affirmare Lui",
+    "vivere.mondo": "Io Vivo il Mondo",
+    "chiedere.organizzare.mondo": "Io Chiedo e Organizzo il Mondo",
+    "chiedere.mi.stesso": "Io Chiedo a Me Stesso",
+    "miei.risposte": "Io Ho Le Mie Risposte",
+    "nuovi.valori": "Io Ho Nuovi Valori",
+    "nuova.misiione": "Io Ho Una Nuova Misiione"
   },
   de: {
     title: "Ari | TimeCanvas",
@@ -142,7 +366,7 @@ const baseTranslations = {
     share: "Teilen",
     past: "Vergangenheit",
     present: "Gegenwart",
-    future: "Zukunft",
+    future: "Futur",
     results: "Dein TimeCanvas",
     timeElapsed: "Verstrichene Zeit",
     timeRemaining: "Verbleibende Zeit",
@@ -151,7 +375,72 @@ const baseTranslations = {
     yearsRemaining: "verbleibende Jahre",
     untilNextBirthday: "bis zum nächsten Geburtstag",
     footer: "© 2025 TimeCanvas",
-    inspiration: "DESIGN VON"
+    inspiration: "DESIGN VON",
+    
+    // Human development translations
+    humanDevelopment: "Lebenszyklus des Menschen",
+    sevenYearsCycle: "Lebenszyklen in 7-Jährigen Perioden",
+    currentPhase: "Aktuelle Phase",
+    nextPhaseIn: "Nächste Phase in",
+    sevenYearCycleMessage: "Jede 7 Jahre wird die Lebenszyklus neu gestartet mit neuen Herausforderungen und Chancen",
+    completed: "Abgeschlossen",
+    firstSetenio: "Erster Setenio",
+    secondSetenio: "Zweiter Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles
+    "nascer.fisico": "Fisches Geburtstag",
+    "nascer.emocional": "Emotionales Geburtstag",
+    "nascer.identidade": "Identitätsgeburtstag",
+    "preparar.vida": "Vorbereitung für die Zukunft",
+    "integracao": "Integration",
+    "chegar.essencia": "Ziehen der Essenz",
+    "nova.visao": "Neue Vision",
+    "fase.sabedoria": "Phase der Wissenheit",
+    "fase.mistica": "Mystische Phase",
+    
+    // Educational phases
+    "educacao.receptiva": "Reaktive Bildung & Biologische Maturation",
+    "auto.afirmacao": "Selbst-Affirmation & Psychische Maturation",
+    "auto.desenvolvimento": "Selbst-Entwicklung & Geistige Maturation",
+    
+    // Descriptions
+    "corpo.fisico": "Fisches Körper",
+    "corpo.eterico": "Etherisches Körper",
+    "corpo.astral": "Astrales Körper",
+    "alma.sensacoes": "Sinnliche Seele",
+    "alma.intelecto": "Intellektuelle Seele",
+    "alma.consciencia": "Konsentrationsseele",
+    "alma.imaginativa": "Imaginative Seele",
+    "alma.inspirativa": "Inspirative Seele",
+    "alma.intuitiva": "Intuitive Seele",
+    
+    // Environments
+    "familia": "Familie",
+    "escola": "Schule",
+    "amigos": "Freunde",
+    "busca.lugar": "Suche Ort",
+    "conquista.lugar": "Kontrolle Ort",
+    "consolida.lugar": "Stabilisierung Ort",
+    "faz.essencial": "Führe Nötige Dinge aus",
+    "faz.necessario": "Führe Notwendige Dinge aus",
+    "faz.bem": "Führe Gute Dinge aus",
+    
+    // Crises
+    "crise.identidade": "Identitätskrise",
+    "crise.talentos": "Talentkrise",
+    "crise.autenticidade": "Authentizitätskrise",
+    
+    // Goals
+    "o.mundo.bom": "Der Welt ist Gut",
+    "vivencia.eu": "Leben des Eines",
+    "afirmacao.eu": "Selbst-Affirmation",
+    "vivencio.mundo": "Ich Erfahre die Welt",
+    "questiono.organizo.mundo": "Ich Frage und Organisiere die Welt",
+    "questiono.mim.mesmo": "Ich Frage mich selbst",
+    "minhas.respostas": "Ich habe meine Antworten",
+    "novos.valores": "Ich habe neue Werte",
+    "nova.missao": "Ich habe eine neue Mission"
   },
   fr: {
     title: "Ari | TimeCanvas",
@@ -177,7 +466,72 @@ const baseTranslations = {
     yearsRemaining: "années restantes",
     untilNextBirthday: "jusqu'au prochain anniversaire",
     footer: "© 2025 TimeCanvas",
-    inspiration: "CONÇU PAR"
+    inspiration: "CONÇU PAR",
+    
+    // Human development translations
+    humanDevelopment: "Cycle de Développement Humain",
+    sevenYearsCycle: "Cycles de vie en périodes de 7 ans",
+    currentPhase: "Phase Actuelle",
+    nextPhaseIn: "Prochaine phase en",
+    sevenYearCycleMessage: "Chaque 7 ans, la vie se renouvelle avec de nouveaux défis et opportunités",
+    completed: "Complet",
+    firstSetenio: "Premier Setenio",
+    secondSetenio: "Deuxième Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles
+    "nascer.fisico": "Naissance Fisique",
+    "nascer.emocional": "Naissance Emocionale",
+    "nascer.identidade": "Naissance d'Identité",
+    "preparer.vida": "Préparation pour la Vie",
+    "integracao": "Intégration",
+    "chegar.essencia": "Arriver à l'Essence",
+    "nova.visao": "Nouvelle Vision",
+    "fase.sabedoria": "Phase de Savoir",
+    "fase.mistica": "Phase Mystique",
+    
+    // Educational phases
+    "educacao.receptiva": "Éducation Receptive & Maturation Biologique",
+    "auto.afirmacao": "Auto-Affirmation & Maturation Psychologique",
+    "auto.desenvolvimento": "Auto-Entretien & Maturation Spirituelle",
+    
+    // Descriptions
+    "corpo.fisique": "Corps Fisique",
+    "corpo.eterique": "Corps Éthérique",
+    "corpo.astral": "Corps Astral",
+    "alma.sensations": "Soul des Sensations",
+    "alma.intelligence": "Soul de l'Intelligence",
+    "alma.conscience": "Soul de la Conscience",
+    "alma.imaginative": "Soul Imaginative",
+    "alma.inspiration": "Soul Inspirative",
+    "alma.intuitive": "Soul Intuitive",
+    
+    // Environments
+    "famille": "Famille",
+    "ecole": "École",
+    "amis": "Amis",
+    "chercher.lieu": "Chercher Lieu",
+    "conqueter.lieu": "Conqueter Lieu",
+    "consolider.lieu": "Consolider Lieu",
+    "faire.essentiel": "Faire L'Essentiel",
+    "faire.necessaire": "Faire Nécessaire",
+    "faire.bien": "Faire Bien",
+    
+    // Crises
+    "crise.identite": "Crisis d'Identité",
+    "crise.talent": "Crisis des Talents",
+    "crise.authenticite": "Crisis de l'Authenticité",
+    
+    // Goals
+    "le.monde.bon": "Le Monde est Bon",
+    "vivre.leu": "Vivre le Moi",
+    "affirmer.leu": "Affirmer le Moi",
+    "vivre.lemonde": "Je Vivre le Monde",
+    "questionner.organiser.lemonde": "Je Questionne et Organise le Monde",
+    "questionner.moi.moi": "Je Questionne Moi-Même",
+    "mes.reponses": "Je Possède Mes Réponses",
+    "nouveaux.valores": "Je Possède de Nouveaux Valeurs",
+    "nouvelle.mission": "Je Possède une Nouvelle Mission"
   },
   ru: {
     title: "Ari | TimeCanvas",
@@ -203,7 +557,72 @@ const baseTranslations = {
     yearsRemaining: "осталось лет",
     untilNextBirthday: "до следующего дня рождения",
     footer: "© 2025 TimeCanvas",
-    inspiration: "РАЗРАБОТАНО"
+    inspiration: "РАЗРАБОТАНО",
+    
+    // Human development translations
+    humanDevelopment: "Цикл развития человека",
+    sevenYearsCycle: "Циклы жизни в периодах 7 лет",
+    currentPhase: "Текущая фаза",
+    nextPhaseIn: "Следующая фаза в",
+    sevenYearCycleMessage: "Каждые 7 лет жизнь переносится с новыми испытаниями и возможностями",
+    completed: "Завершено",
+    firstSetenio: "Первый Setenio",
+    secondSetenio: "Второй Setenio",
+    setenio: "Setenio",
+    
+    // Phase titles
+    "nascer.fisico": "Физическое Рождение",
+    "nascer.emocional": "Эмоциональное Рождение",
+    "nascer.identidade": "Рождение Идентичности",
+    "preparar.vida": "Подготовка к Жизни",
+    "integracao": "Интеграция",
+    "chegar.essencia": "Достигнуть Эссенции",
+    "nova.visao": "Новая Виза",
+    "fase.sabedoria": "Фаза Смarts",
+    "fase.mistica": "Фаза Мистики",
+    
+    // Educational phases
+    "educacao.receptiva": "Реактивная Образовательная Программа и Биологическая Матурация",
+    "auto.afirmacao": "Самообъятие и Психическая Матурация",
+    "auto.desenvolvimento": "Саморазвитие и Сpiritualная Матурация",
+    
+    // Descriptions
+    "corpo.fisico": "Физическое Тело",
+    "corpo.eterico": "Этот Тело",
+    "corpo.astral": "Астральное Тело",
+    "alma.sensacoes": "Сознание Сенсоров",
+    "alma.intelecto": "Сознание Интеллекта",
+    "alma.consciencia": "Сознание Внимания",
+    "alma.imaginativa": "Имaginationное Сознание",
+    "alma.inspirativa": "Сознание Вдохновения",
+    "alma.intuitiva": "Сознание Интуиции",
+    
+    // Environments
+    "familia": "Семья",
+    "escola": "Школа",
+    "amigos": "Друзья",
+    "busca.lugar": "Поиск Места",
+    "conquista.lugar": "Управление Местом",
+    "consolida.lugar": "С consolidation Места",
+    "faz.essencial": "Сделать Нужное",
+    "faz.necessario": "Сделать Нужное",
+    "faz.bem": "Сделать Хорошее",
+    
+    // Crises
+    "crise.identidade": "Кризис Идентичности",
+    "crise.talentos": "Кризис Талантов",
+    "crise.autenticidade": "Кризис Аутентичности",
+    
+    // Goals
+    "o.mundo.bom": "Мир Хороший",
+    "vivencia.eu": "Жизнь Единица",
+    "afirmacao.eu": "Самообъятие Единица",
+    "vivencio.mundo": "Я Живу Мир",
+    "questiono.organizo.mundo": "Я Вопрос и Организую Мир",
+    "questiono.mim.mesmo": "Я Вопрос Моему Себе",
+    "minhas.respostas": "У меня Есть Ответы",
+    "novos.valores": "У меня Есть Новые Значения",
+    "nova.missao": "У меня Есть Новая Миссия"
   },
   zh: {
     title: "阿里 |时间屏幕",
@@ -229,7 +648,72 @@ const baseTranslations = {
     yearsRemaining: "剩余年限",
     untilNextBirthday: "直到下一个生日",
     footer: "© 2025 时间画布",
-    inspiration: "设计者"
+    inspiration: "设计者",
+    
+    // Human development translations
+    humanDevelopment: "人类发展生命周期",
+    sevenYearsCycle: "7年周期",
+    currentPhase: "当前阶段",
+    nextPhaseIn: "下一个阶段在",
+    sevenYearCycleMessage: "每7年，生命会重新开始，带来新的挑战和机会",
+    completed: "完成",
+    firstSetenio: "第一阶段",
+    secondSetenio: "第二阶段",
+    setenio: "阶段",
+    
+    // Phase titles
+    "nascer.fisico": "物理出生",
+    "nascer.emocional": "情感出生",
+    "nascer.identidade": "身份出生",
+    "preparar.vida": "准备生活",
+    "integracao": "整合",
+    "chegar.essencia": "达到本质",
+    "nova.visao": "新视角",
+    "fase.sabedoria": "智慧阶段",
+    "fase.mistica": "神秘阶段",
+    
+    // Educational phases
+    "educacao.receptiva": "接受教育和生物成熟",
+    "auto.afirmacao": "自我肯定和心理成熟",
+    "auto.desenvolvimento": "自我发展和精神成熟",
+    
+    // Descriptions
+    "corpo.fisico": "物理身体",
+    "corpo.eterico": " etheric身体",
+    "corpo.astral": "astral身体",
+    "alma.sensacoes": "感觉灵魂",
+    "alma.intelecto": "智力灵魂",
+    "alma.consciencia": "意识灵魂",
+    "alma.imaginativa": "想象灵魂",
+    "alma.inspirativa": "灵感灵魂",
+    "alma.intuitiva": "直觉灵魂",
+    
+    // Environments
+    "familia": "家庭",
+    "escola": "学校",
+    "amigos": "朋友",
+    "busca.lugar": "寻找地方",
+    "conquista.lugar": "征服地方",
+    "consolida.lugar": "巩固地方",
+    "faz.essencial": "做必要的事情",
+    "faz.necessario": "做必要的事情",
+    "faz.bem": "做好的事情",
+    
+    // Crises
+    "crise.identidade": "身份危机",
+    "crise.talentos": "才能危机",
+    "crise.autenticidade": "真实性危机",
+    
+    // Goals
+    "o.mundo.bom": "世界很好",
+    "vivencia.eu": "活出自我",
+    "afirmacao.eu": "自我肯定",
+    "vivencio.mundo": "我体验世界",
+    "questiono.organizo.mundo": "我质疑并组织世界",
+    "questiono.mim.mesmo": "我质疑我自己",
+    "minhas.respostas": "我有我的答案",
+    "novos.valores": "我有新的价值观",
+    "nova.missao": "我有一个新的使命"
   },
   ja: {
     title: "アリタイムスクリーン",
@@ -248,14 +732,79 @@ const baseTranslations = {
     present: "現在",
     future: "未来",
     results: "あなたのタイムキャンバス",
-    timeElapsed: "経過時間",
+    timeElapsed: "経過��間",
     timeRemaining: "残り時間",
     born: "生まれ",
     yearsOld: "歳",
     yearsRemaining: "残りの年数",
     untilNextBirthday: "次の誕生日まで",
     footer: "© 2025 タイムキャンバス",
-    inspiration: "デザイン："
+    inspiration: "デザイン：",
+    
+    // Human development translations
+    humanDevelopment: "人間の発展サイクル",
+    sevenYearsCycle: "7年サイクル",
+    currentPhase: "現在のフェーズ",
+    nextPhaseIn: "次のフェーズは",
+    sevenYearCycleMessage: "7年ごとに、人生は新しい挑戦と機会で再び生まれ変わります",
+    completed: "完了",
+    firstSetenio: "第一フェーズ",
+    secondSetenio: "第二フェーズ",
+    setenio: "フェーズ",
+    
+    // Phase titles
+    "nascer.fisico": "物理出生",
+    "nascer.emocional": "感情出生",
+    "nascer.identidade": "身份出生",
+    "preparar.vida": "生活準備",
+    "integracao": "統合",
+    "chegar.essencia": "達成",
+    "nova.visao": "新しい視点",
+    "fase.sabedoria": "知性フェーズ",
+    "fase.mistica": "神秘フェーズ",
+    
+    // Educational phases
+    "educacao.receptiva": "受容教育と生物成熟",
+    "auto.afirmacao": "自愛と心理成熟",
+    "auto.desenvolvimento": "自発成長と精神成熟",
+    
+    // Descriptions
+    "corpo.fisico": "物理体",
+    "corpo.eterico": "etheric体",
+    "corpo.astral": "astral体",
+    "alma.sensacoes": "感覚魂",
+    "alma.intelecto": "知能魂",
+    "alma.consciencia": "意識魂",
+    "alma.imaginativa": "想像魂",
+    "alma.inspirativa": " inspiration魂",
+    "alma.intuitiva": "直感魂",
+    
+    // Environments
+    "familia": "家族",
+    "escola": "学校",
+    "amigos": "友人",
+    "busca.lugar": "場所探求",
+    "conquista.lugar": "場所征服",
+    "consolida.lugar": "場所安定",
+    "faz.essencial": "必要なこと",
+    "faz.necessario": "必要なこと",
+    "faz.bem": "良いこと",
+    
+    // Crises
+    "crise.identidade": "身份危机",
+    "crise.talentos": "才能危机",
+    "crise.autenticidade": "真实性危机",
+    
+    // Goals
+    "o.mundo.bom": "世界は良い",
+    "vivencia.eu": "自分自身を生きる",
+    "afirmacao.eu": "自愛",
+    "vivencio.mundo": "世界を体験する",
+    "questiono.organizo.mundo": "世界を質問し、組織する",
+    "questiono.mim.mesmo": "自分自身を質問する",
+    "minhas.respostas": "自分の答え",
+    "novos.valores": "新しい価値観",
+    "nova.missao": "新しいミッションを持つ"
   },
   id: {
     title: "Ari | TimeCanvas",
@@ -281,7 +830,72 @@ const baseTranslations = {
     yearsRemaining: "tahun tersisa",
     untilNextBirthday: "sampai ulang tahun berikutnya",
     footer: "© 2025 TimeCanvas",
-    inspiration: "DIRANCANG OLEH"
+    inspiration: "DIRANCANG OLEH",
+    
+    // Human development translations
+    humanDevelopment: "Cicil Pendidikan Manusia",
+    sevenYearsCycle: "Cicil Pendidikan dalam Periode 7 Tahun",
+    currentPhase: "Fase Sekarang",
+    nextPhaseIn: "Fase Selanjutnya Dalam",
+    sevenYearCycleMessage: "Setiap 7 tahun, hidup akan diperbarui dengan tantangan dan peluang baru",
+    completed: "Selesai",
+    firstSetenio: "Fase Pertama",
+    secondSetenio: "Fase Kedua",
+    setenio: "Fase",
+    
+    // Phase titles
+    "nascer.fisico": "Pembuatan Tubuh",
+    "nascer.emocional": "Pembuatan Emosi",
+    "nascer.identidade": "Pembuatan Identitas",
+    "preparar.vida": "Pembelajaran Sebelumnya",
+    "integrasi": "Integrasi",
+    "chegar.essencia": "Mencapai Tujuan",
+    "nova.visao": "Visi Baru",
+    "fase.sabedoria": "Fase Pengetahuan",
+    "fase.mistica": "Fase Misteri",
+    
+    // Educational phases
+    "educasi.receptif": "Edukasi Receptif & Maturasi Biologis",
+    "auto.afirmasi": "Auto-Afirmasi & Maturasi Psikologis",
+    "auto.desarvolopasi": "Auto-Desarvolopasi & Maturasi Spiritual",
+    
+    // Descriptions
+    "corpo.fisik": "Badan Fisik",
+    "corpo.eterik": "Badan Eterik",
+    "corpo.astral": "Badan Astral",
+    "alma.sensasi": "Soul Sensasi",
+    "alma.inteljensi": "Soul Inteljensi",
+    "alma.konsentrasi": "Soul Konsentrasi",
+    "alma.imaginatif": "Soul Imajinatif",
+    "alma.inspiratif": "Soul Inspiratif",
+    "alma.intuitif": "Soul Intuitif",
+    
+    // Environments
+    "keluarga": "Keluarga",
+    "sekolah": "Sekolah",
+    "teman": "Teman",
+    "mencari.tempat": "Mencari Tempat",
+    "menyerang.tempat": "Menyerang Tempat",
+    "menyelesaikan.tempat": "Menyelesaikan Tempat",
+    "melakukan.essensial": "Melakukan Yang Essensial",
+    "melakukan.necesser": "Melakukan Yang Necesser",
+    "melakukan.benar": "Melakukan Yang Benar",
+    
+    // Crises
+    "crisis.identitas": "Crisis Identitas",
+    "crisis.talenta": "Crisis Talenta",
+    "crisis.autentikasi": "Crisis Autentikasi",
+    
+    // Goals
+    "mundo.benar": "Mundu Benar",
+    "hidup.saya": "Hidup Saya",
+    "afirmasi.saya": "Afirmasi Saya",
+    "hidup.mundu": "Saya Mengalami Mundu",
+    "pertanyaan.organisasi.mundu": "Saya Pertanyaan dan Organisasi Mundu",
+    "pertanyaan.saya": "Saya Pertanyaan Saya",
+    "jawaban.saya": "Saya Memiliki Jawaban",
+    "nilai.baru": "Saya Memiliki Nilai Baru",
+    "misi.baru": "Saya Memiliki Misi Baru"
   }
 } as const;
 

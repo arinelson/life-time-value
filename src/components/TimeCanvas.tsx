@@ -17,7 +17,7 @@ import { HeatmapView } from "./visualizations/HeatmapView";
 import { BarChartView } from "./visualizations/BarChartView";
 import { LineChartView } from "./visualizations/LineChartView";
 import { PieChartView } from "./visualizations/PieChartView";
-import { GaugeChartView } from "./visualizations/GaugeChartView";
+import { HumanDevelopmentView } from "./visualizations/HumanDevelopmentView";
 import { AreaChartView } from "./visualizations/AreaChartView";
 import { TimelineView } from "./visualizations/TimelineView";
 import { RadarChartView } from "./visualizations/RadarChartView";
@@ -83,8 +83,8 @@ export function TimeCanvas() {
         return <LineChartView {...commonProps} />;
       case "pie":
         return <PieChartView {...commonProps} />;
-      case "gauge":
-        return <GaugeChartView {...commonProps} />;
+      case "gauge": // We're replacing this with human development view
+        return <HumanDevelopmentView {...commonProps} />;
       case "area":
         return <AreaChartView {...commonProps} />;
       case "timeline":
