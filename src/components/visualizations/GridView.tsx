@@ -1,4 +1,3 @@
-
 import React, { useMemo, useCallback, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -23,30 +22,23 @@ export function GridView({
   const gridContainerRef = useRef<HTMLDivElement>(null);
   const isInitialRender = useRef(true);
 
-  // Memoize grid dimensions calculation with better settings for visibility
   const grid = useMemo(() => {
     if (timeUnit === "years") {
-      // For years, keep a square-ish grid
       const squareSide = Math.ceil(Math.sqrt(totalUnits));
       return { rows: squareSide, cols: Math.ceil(totalUnits / squareSide) };
     } else if (timeUnit === "months") {
-      // For months, create a grid that shows more columns
       return { rows: Math.min(12, Math.ceil(totalUnits / 12)), cols: 12 };
     } else if (timeUnit === "weeks") {
-      // For weeks, create a grid with 52 weeks per row (year)
       return { rows: Math.ceil(totalUnits / 52), cols: 52 };
     } else {
-      // For days, create a scrollable grid with months as rows
       return { rows: Math.ceil(totalUnits / 30), cols: 30 };
     }
   }, [totalUnits, timeUnit]);
 
-  // FIXED: Get the current year regardless of whether birthday has occurred
   const currentYear = useMemo(() => {
     return new Date().getFullYear();
   }, []);
 
-  // FIXED: Calculate years lived precisely
   const yearsLived = useMemo(() => {
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
@@ -57,41 +49,31 @@ export function GridView({
     return hasBirthdayOccurred ? age : age - 1;
   }, [birthDate]);
 
-  // Memoize cell class determination
   const getCellClass = useCallback((index: number, cellYear?: number) => {
-    // If it's the current year (including before birthday)
     if (cellYear === currentYear) {
-      // If it's the exact elapsed unit, mark as present
       if (index === elapsedUnits) {
         return "canvas-present";
       }
-      // If it's before elapsed units, mark as past
       if (index < elapsedUnits) {
         return "canvas-past";
       }
-      // If it's after elapsed units, mark as future
       return "canvas-future";
     }
     
-    // If it's a past year, mark as past
     if (cellYear && cellYear < currentYear) {
       return "canvas-past";
     }
     
-    // If it's a future year, mark as future
     if (cellYear && cellYear > currentYear) {
       return "canvas-future";
     }
     
-    // Default fallback
     return "";
   }, [elapsedUnits, currentYear]);
 
-  // Fixed: Correctly get cell content for years
   const getCellContent = useCallback((index: number) => {
     if (!birthDate) return null;
 
-    // Only show content for specific units
     if (timeUnit === "years") {
       const date = getDateFromIndex(birthDate, index, timeUnit);
       return date.getFullYear();
@@ -100,7 +82,6 @@ export function GridView({
     return null;
   }, [birthDate, timeUnit]);
 
-  // Generate tooltip text for cell
   const getCellTooltip = useCallback((index: number) => {
     if (!birthDate) return "";
     
@@ -108,13 +89,11 @@ export function GridView({
     return format(date, "PP");
   }, [birthDate, timeUnit]);
 
-  // Render all cells for completeness
   const renderAllCells = useMemo(() => {
     const cells = [];
     
     for (let i = 0; i < totalUnits; i++) {
       const content = getCellContent(i);
-      
       const cellClass = getCellClass(i, content);
       
       cells.push(
@@ -131,24 +110,20 @@ export function GridView({
     return cells;
   }, [totalUnits, getCellClass, getCellContent, getCellTooltip]);
 
-  // Auto-scroll to present cell on mount and when elapsedUnits changes
   useEffect(() => {
     const scrollToPresent = () => {
       if (!gridContainerRef.current) return;
       
       const presentCell = gridContainerRef.current.querySelector(".canvas-present");
       if (presentCell) {
-        // Find the containing scroll area
         const scrollAreaViewport = gridContainerRef.current.closest("[data-radix-scroll-area-viewport]") as HTMLElement;
         
         if (scrollAreaViewport) {
           const cellRect = (presentCell as HTMLElement).getBoundingClientRect();
           const viewportRect = scrollAreaViewport.getBoundingClientRect();
           
-          // Calculate scroll position to center the present cell
           const scrollLeft = (presentCell as HTMLElement).offsetLeft - (viewportRect.width / 2) + (cellRect.width / 2);
           
-          // Smooth scroll to the present cell
           scrollAreaViewport.scrollTo({
             left: scrollLeft,
             behavior: isInitialRender.current ? 'auto' : 'smooth'
@@ -158,7 +133,6 @@ export function GridView({
       isInitialRender.current = false;
     };
 
-    // Small delay to ensure DOM is ready
     const timer = setTimeout(scrollToPresent, 100);
     return () => clearTimeout(timer);
   }, [elapsedUnits, totalUnits]);
@@ -187,4 +161,3 @@ export function GridView({
 }
 
 export default GridView;
-
