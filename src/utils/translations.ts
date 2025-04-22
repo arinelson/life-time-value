@@ -23,7 +23,7 @@ export type Translations = {
 
 const baseTranslations = {
   en: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualize your life in time units.",
     birthday: "Birthday",
     lifeExpectancy: "Life Expectancy",
@@ -114,7 +114,7 @@ const baseTranslations = {
     "nova.missao": "I Have a New Mission"
   },
   pt: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualize sua vida em unidades de tempo.",
     birthday: "Data de Nascimento",
     lifeExpectancy: "Expectativa de Vida",
@@ -205,7 +205,7 @@ const baseTranslations = {
     "nova.missao": "Eu tenho uma nova missão"
   },
   es: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualiza tu vida en unidades de tiempo.",
     birthday: "Fecha de Nacimiento",
     lifeExpectancy: "Expectativa de Vida",
@@ -261,7 +261,7 @@ const baseTranslations = {
     // ... All other keys with simplified Spanish translations
   },
   it: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualizza la tua vita in unità di tempo.",
     birthday: "Data di Nascita",
     lifeExpectancy: "Aspettativa di Vita",
@@ -352,7 +352,7 @@ const baseTranslations = {
     "nuova.misiione": "Io Ho Una Nuova Misiione"
   },
   de: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualisiere dein Leben in Zeiteinheiten.",
     birthday: "Geburtsdatum",
     lifeExpectancy: "Lebenserwartung",
@@ -443,7 +443,7 @@ const baseTranslations = {
     "nova.missao": "Ich habe eine neue Mission"
   },
   fr: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Visualisez votre vie en unités de temps.",
     birthday: "Date de naissance",
     lifeExpectancy: "Espérance de vie",
@@ -534,7 +534,7 @@ const baseTranslations = {
     "nouvelle.mission": "Je Possède une Nouvelle Mission"
   },
   ru: {
-    title: "Ari | TimeCanvas",
+    title: "Life Time Value",
     subtitle: "Визуализируйте свою жизнь в единицах времени.",
     birthday: "Дата рождения",
     lifeExpectancy: "Ожидаемая продолжительность жизни",
