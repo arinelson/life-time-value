@@ -17,7 +17,8 @@ import {
   ArrowRightFromLine,
   CircleDot,
   Kanban,
-  Users
+  Users,
+  Clock
 } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -30,7 +31,8 @@ export type VisualizationType =
   | "gauge" 
   | "area" 
   | "timeline" 
-  | "radar";
+  | "radar"
+  | "timeUnits";
 
 export function VisualizationSelector() {
   const { visualizationType, setVisualizationType } = useTimeCanvas();
@@ -42,10 +44,11 @@ export function VisualizationSelector() {
     { type: "bar", label: "barChart", icon: <BarChart3 className="h-4 w-4" /> },
     { type: "line", label: "lineChart", icon: <LineChart className="h-4 w-4" /> },
     { type: "pie", label: "pieChart", icon: <PieChart className="h-4 w-4" /> },
-    { type: "gauge", label: "humanDevelopment", icon: <Users className="h-4 w-4" /> }, // Updated label and icon
+    { type: "gauge", label: "humanDevelopment", icon: <Users className="h-4 w-4" /> },
     { type: "area", label: "areaChart", icon: <TrendingUp className="h-4 w-4" /> },
     { type: "timeline", label: "timeline", icon: <Timer className="h-4 w-4" /> },
     { type: "radar", label: "radarChart", icon: <RadarIcon className="h-4 w-4" /> },
+    { type: "timeUnits", label: "timeUnits", icon: <Clock className="h-4 w-4" /> },
   ] as const;
 
   return (

@@ -10,7 +10,8 @@ import {
   CalendarDays, 
   CalendarRange, 
   CalendarIcon, 
-  Calendar as CalendarFull 
+  Calendar as CalendarFull,
+  Clock
 } from "lucide-react";
 import { GridView } from "./visualizations/GridView";
 import { HeatmapView } from "./visualizations/HeatmapView";
@@ -21,6 +22,7 @@ import { HumanDevelopmentView } from "./visualizations/HumanDevelopmentView";
 import { AreaChartView } from "./visualizations/AreaChartView";
 import { TimelineView } from "./visualizations/TimelineView";
 import { RadarChartView } from "./visualizations/RadarChartView";
+import { TimeUnitsView } from "./visualizations/TimeUnitsView";
 import { Card } from "@/components/ui/card";
 
 export function TimeCanvas() {
@@ -56,6 +58,10 @@ export function TimeCanvas() {
         return <CalendarIcon className="h-5 w-5" />;
       case "years":
         return <CalendarFull className="h-5 w-5" />;
+      case "hours":
+      case "minutes":
+      case "seconds":
+        return <Clock className="h-5 w-5" />;
       default:
         return <CalendarDays className="h-5 w-5" />;
     }
@@ -91,6 +97,8 @@ export function TimeCanvas() {
         return <TimelineView {...commonProps} />;
       case "radar":
         return <RadarChartView {...commonProps} />;
+      case "timeUnits":
+        return <TimeUnitsView {...commonProps} />;
       default:
         return <GridView {...commonProps} />;
     }

@@ -1,7 +1,8 @@
 
+import { useState } from "react";
 import { useTimeCanvas } from "@/hooks/useTimeCanvas";
 import { useLanguage } from "@/hooks/useLanguage";
-import { TimeUnit } from "@/utils/timeCalculations";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,27 +10,71 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CalendarDays, CalendarRange, CalendarIcon, Calendar as CalendarFull, Clock } from "lucide-react";
+import type { TimeUnit } from "@/utils/timeCalculations";
 
 export function TimeUnitSelector() {
-  const { t } = useLanguage();
   const { timeUnit, setTimeUnit } = useTimeCanvas();
+  const { t } = useLanguage();
 
-  const handleChange = (value: string) => {
+  const timeUnits = [
+    { 
+      value: "years", 
+      label: t("years"), 
+      icon: <CalendarFull className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "months", 
+      label: t("months"), 
+      icon: <CalendarIcon className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "weeks", 
+      label: t("weeks"), 
+      icon: <CalendarRange className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "days", 
+      label: t("days"), 
+      icon: <CalendarDays className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "hours", 
+      label: t("hours"), 
+      icon: <Clock className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "minutes", 
+      label: t("minutes"), 
+      icon: <Clock className="mr-2 h-4 w-4" /> 
+    },
+    { 
+      value: "seconds", 
+      label: t("seconds"), 
+      icon: <Clock className="mr-2 h-4 w-4" /> 
+    }
+  ];
+
+  const handleSelectTimeUnit = (value: string) => {
     setTimeUnit(value as TimeUnit);
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium">{t("timeUnit")}</label>
-      <Select value={timeUnit} onValueChange={handleChange}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={t("timeUnit")} />
+    <div className="space-y-2">
+      <Label htmlFor="time-unit">{t("timeUnit")}</Label>
+      <Select value={timeUnit} onValueChange={handleSelectTimeUnit}>
+        <SelectTrigger id="time-unit">
+          <SelectValue placeholder={t("selectTimeUnit")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="days">{t("days")}</SelectItem>
-          <SelectItem value="weeks">{t("weeks")}</SelectItem>
-          <SelectItem value="months">{t("months")}</SelectItem>
-          <SelectItem value="years">{t("years")}</SelectItem>
+          {timeUnits.map((unit) => (
+            <SelectItem key={unit.value} value={unit.value}>
+              <div className="flex items-center">
+                {unit.icon}
+                {unit.label}
+              </div>
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>
