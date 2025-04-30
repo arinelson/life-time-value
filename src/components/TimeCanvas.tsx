@@ -113,10 +113,10 @@ export function TimeCanvas() {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {getUnitIcon()}
-          <h3 className="text-xl font-bold">{t(timeUnit)}</h3>
+          <h3 className="text-xl font-bold">{timeUnit}</h3>
         </div>
         <div className="text-sm text-muted-foreground">
-          {t("past")}: {elapsedUnits} / {totalUnits} {t(timeUnit)}
+          {"Past"}: {elapsedUnits} / {totalUnits} {timeUnit}
         </div>
       </div>
 
@@ -127,15 +127,15 @@ export function TimeCanvas() {
       <div className="mt-4 flex gap-2 items-center justify-center text-sm text-muted-foreground">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-sm canvas-past"></div>
-          <span>{t("past")}</span>
+          <span>{"Past"}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-sm canvas-present"></div>
-          <span>{t("present")}</span>
+          <span>{"Present"}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-sm canvas-future"></div>
-          <span>{t("future")}</span>
+          <span>{"Future"}</span>
         </div>
       </div>
     </div>

@@ -71,7 +71,7 @@ export function TimeUnitSelector() {
             <SelectItem key={unit.value} value={unit.value}>
               <div className="flex items-center">
                 {unit.icon}
-                {t(unit.label)}
+                {unit.label}
               </div>
             </SelectItem>
           ))}

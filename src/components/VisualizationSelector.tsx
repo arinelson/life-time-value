@@ -48,7 +48,7 @@ export function VisualizationSelector() {
     { type: "area", label: "areaChart", icon: <TrendingUp className="h-4 w-4" /> },
     { type: "timeline", label: "timeline", icon: <Timer className="h-4 w-4" /> },
     { type: "radar", label: "radarChart", icon: <RadarIcon className="h-4 w-4" /> },
-    { type: "timeUnits", label: "timeUnits", icon: <Clock className="h-4 w-4" /> },
+    { type: "timeUnits", label: "Time Units", icon: <Clock className="h-4 w-4" /> },
   ] as const;
 
   return (
@@ -70,7 +70,7 @@ export function VisualizationSelector() {
               aria-label={option.label}
             >
               {option.icon}
-              <span className="hidden sm:inline">{t(option.label)}</span>
+              <span className="hidden sm:inline">{option.label}</span>
             </TabsTrigger>
           ))}
         </TabsList>
