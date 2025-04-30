@@ -34,7 +34,10 @@ export function GridView({
     seconds: 0
   });
 
-  const isSmallTimeUnit = timeUnit === "hours" || timeUnit === "minutes" || timeUnit === "seconds";
+  // Check if we're using a small time unit (hours, minutes, seconds)
+  const isSmallTimeUnit = useMemo(() => {
+    return timeUnit === "hours" || timeUnit === "minutes" || timeUnit === "seconds";
+  }, [timeUnit]);
 
   const grid = useMemo(() => {
     return getGridDimensions(totalUnits, timeUnit);
@@ -44,8 +47,25 @@ export function GridView({
     return new Date().getFullYear();
   }, []);
 
+  // Calculate the total remaining time units based on the countdown
+  const calculateTotalRemaining = useCallback(() => {
+    const { years, days, hours, minutes, seconds } = countdown;
+
+    switch(timeUnit) {
+      case "hours":
+        return years * 365.25 * 24 + days * 24 + hours;
+      case "minutes":
+        return (years * 365.25 * 24 + days * 24 + hours) * 60 + minutes;
+      case "seconds":
+        return ((years * 365.25 * 24 + days * 24 + hours) * 60 + minutes) * 60 + seconds;
+      default:
+        return 0;
+    }
+  }, [countdown, timeUnit]);
+
   // Calculate the remaining time in real-time for hours, minutes, seconds
   useEffect(() => {
+    // Only run this effect for small time units
     if (!isSmallTimeUnit) return;
 
     const calculateRemainingTime = () => {
@@ -149,7 +169,13 @@ export function GridView({
     return format(date, "PP");
   }, [birthDate, timeUnit]);
 
+  // Memoize cells to prevent re-renders
   const renderAllCells = useMemo(() => {
+    // For performance reasons, limit the number of cells we render for small time units
+    if (isSmallTimeUnit && totalUnits > 1000) {
+      return null;
+    }
+    
     const cells = [];
     
     for (let i = 0; i < totalUnits; i++) {
@@ -168,48 +194,114 @@ export function GridView({
       );
     }
     return cells;
-  }, [totalUnits, getCellClass, getCellContent, getCellTooltip]);
+  }, [totalUnits, getCellClass, getCellContent, getCellTooltip, isSmallTimeUnit]);
 
   // For small time units (hours, minutes, seconds), show real-time countdown
   const renderTimeUnitDisplay = () => {
     if (!isSmallTimeUnit) return null;
 
-    let displayValue = 0;
-    let unitLabel = "";
+    const totalRemaining = calculateTotalRemaining();
+    
+    let displayElement;
     
     switch(timeUnit) {
-      case "hours":
-        displayValue = countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours;
-        unitLabel = "hours";
+      case "hours": {
+        const hours = Math.floor(totalRemaining);
+        const minutes = Math.floor((totalRemaining - hours) * 60);
+        const seconds = Math.floor(((totalRemaining - hours) * 60 - minutes) * 60);
+        
+        displayElement = (
+          <>
+            <div className="text-4xl font-bold mb-2">
+              {hours.toLocaleString()}
+            </div>
+            <p className="text-muted-foreground mb-4">hours remaining</p>
+            
+            <div className="flex justify-center items-center gap-4">
+              <div className="bg-card p-3 rounded-lg border">
+                <div className="text-2xl font-bold">{countdown.hours.toString().padStart(2, '0')}</div>
+                <div className="text-xs text-muted-foreground">hours</div>
+              </div>
+              <div className="text-xl">:</div>
+              <div className="bg-card p-3 rounded-lg border">
+                <div className="text-2xl font-bold">{countdown.minutes.toString().padStart(2, '0')}</div>
+                <div className="text-xs text-muted-foreground">min</div>
+              </div>
+              <div className="text-xl">:</div>
+              <div className="bg-card p-3 rounded-lg border animate-pulse">
+                <div className="text-2xl font-bold">{countdown.seconds.toString().padStart(2, '0')}</div>
+                <div className="text-xs text-muted-foreground">sec</div>
+              </div>
+            </div>
+          </>
+        );
         break;
-      case "minutes":
-        displayValue = (countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours) * 60 + countdown.minutes;
-        unitLabel = "minutes";
+      }
+      
+      case "minutes": {
+        const minutes = Math.floor(totalRemaining);
+        const seconds = Math.floor((totalRemaining - minutes) * 60);
+        
+        displayElement = (
+          <>
+            <div className="text-4xl font-bold mb-2">
+              {minutes.toLocaleString()}
+            </div>
+            <p className="text-muted-foreground mb-4">minutes remaining</p>
+            
+            <div className="flex justify-center items-center gap-4">
+              <div className="bg-card p-3 rounded-lg border">
+                <div className="text-2xl font-bold">{countdown.minutes.toString().padStart(2, '0')}</div>
+                <div className="text-xs text-muted-foreground">minutes</div>
+              </div>
+              <div className="text-xl">:</div>
+              <div className="bg-card p-3 rounded-lg border animate-pulse">
+                <div className="text-2xl font-bold">{countdown.seconds.toString().padStart(2, '0')}</div>
+                <div className="text-xs text-muted-foreground">seconds</div>
+              </div>
+            </div>
+          </>
+        );
         break;
+      }
+      
       case "seconds":
-        displayValue = ((countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours) * 60 + countdown.minutes) * 60 + countdown.seconds;
-        unitLabel = "seconds";
+        displayElement = (
+          <>
+            <div className="text-4xl font-bold mb-2 animate-pulse">
+              {Math.floor(totalRemaining).toLocaleString()}
+            </div>
+            <p className="text-muted-foreground mb-4">seconds remaining</p>
+            
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-1000" 
+                style={{ width: `${(countdown.seconds / 60) * 100}%` }}
+              ></div>
+            </div>
+          </>
+        );
         break;
+      
+      default:
+        displayElement = null;
     }
-
+    
     return (
       <div className="flex flex-col items-center justify-center space-y-4 py-8 bg-card shadow-sm rounded-lg border p-6 mb-6">
         <div className="flex justify-center mb-4">
           <Clock className="h-12 w-12 text-primary" />
         </div>
         <h3 className="text-2xl font-bold">Time Remaining</h3>
-        <div className="text-4xl font-bold">
-          {Math.floor(displayValue).toLocaleString()}
-        </div>
-        <p className="text-muted-foreground">{unitLabel}</p>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-          <div className="bg-primary h-2.5 rounded-full animate-pulse" style={{ width: '100%' }}></div>
-        </div>
+        {displayElement}
       </div>
     );
   };
 
+  // Scroll to present element but debounce it to prevent performance issues
   useEffect(() => {
+    if (isSmallTimeUnit) return; // Don't attempt scrolling for small time units
+    
     const scrollToPresent = () => {
       if (!gridContainerRef.current) return;
       
@@ -232,16 +324,18 @@ export function GridView({
       isInitialRender.current = false;
     };
 
+    // Use a delay to ensure the DOM is ready
     const timer = setTimeout(scrollToPresent, 100);
     return () => clearTimeout(timer);
-  }, [elapsedUnits, totalUnits]);
+  }, [elapsedUnits, totalUnits, isSmallTimeUnit]);
 
   return (
     <>
-      {isSmallTimeUnit ? renderTimeUnitDisplay() : null}
+      {/* Always show the time unit display for small units */}
+      {isSmallTimeUnit && renderTimeUnitDisplay()}
       
-      {/* Always render the grid for all time units, but it will be hidden for small time units if there's a lot of units */}
-      {(!isSmallTimeUnit || totalUnits <= 1000) && (
+      {/* Only render the grid for non-small time units or if there aren't too many units */}
+      {(!isSmallTimeUnit || (isSmallTimeUnit && totalUnits <= 1000)) && (
         <ScrollArea 
           className="border rounded-lg p-4" 
           style={{ height: timeUnit === "years" ? "auto" : "500px" }}

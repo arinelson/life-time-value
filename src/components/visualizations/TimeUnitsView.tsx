@@ -1,6 +1,6 @@
 
 import { useLanguage } from "@/hooks/useLanguage";
-import { Clock, Clock2, Clock3 } from "lucide-react";
+import { Clock, Clock2, Clock3, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState, useCallback } from "react";
@@ -15,7 +15,8 @@ interface TimeUnitsViewProps {
 
 export function TimeUnitsView({
   birthDate,
-  lifeExpectancy
+  lifeExpectancy,
+  timeUnit
 }: TimeUnitsViewProps) {
   const { toast } = useToast();
   
@@ -27,6 +28,20 @@ export function TimeUnitsView({
     minutes: 0,
     seconds: 0
   });
+  
+  // Get total units based on the selected time unit
+  const getTotalUnits = useCallback(() => {
+    switch(timeUnit) {
+      case "hours":
+        return countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours;
+      case "minutes":
+        return (countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours) * 60 + countdown.minutes;
+      case "seconds":
+        return ((countdown.years * 365.25 * 24 + countdown.days * 24 + countdown.hours) * 60 + countdown.minutes) * 60 + countdown.seconds;
+      default:
+        return 0;
+    }
+  }, [countdown, timeUnit]);
   
   // Calculate remaining time in different units
   const calculateRemainingTime = useCallback(() => {
@@ -84,7 +99,7 @@ export function TimeUnitsView({
     // Update every second
     const intervalId = setInterval(calculateRemainingTime, 1000);
     
-    // Cleanup interval on component unmount
+    // Cleanup interval on component unmount or when props change
     return () => clearInterval(intervalId);
   }, [calculateRemainingTime]);
   
@@ -108,17 +123,98 @@ export function TimeUnitsView({
     }
   };
 
-  return (
-    <div className="w-full space-y-8 py-4">
-      <div className="text-center space-y-6">
-        <div className="flex justify-center">
-          <div className="bg-primary/10 p-4 rounded-full">
-            <Clock className="h-12 w-12 text-primary" />
+  // Render different displays based on time unit
+  const renderTimeUnitDisplay = () => {
+    if (timeUnit === "hours") {
+      const totalHours = getTotalUnits();
+      return (
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border">
+            <div className="flex justify-center mb-4">
+              <Clock2 className="h-8 w-8 text-primary" />
+            </div>
+            <h4 className="text-3xl font-semibold mb-1">{Math.floor(totalHours).toLocaleString()}</h4>
+            <p className="text-muted-foreground">Total Hours Remaining</p>
+          </div>
+          
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border relative overflow-hidden">
+            <div className="flex justify-center mb-4">
+              <Clock className="h-8 w-8 text-primary" />
+            </div>
+            <div className="flex justify-center items-center space-x-1">
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.hours.toString().padStart(2, '0')}</h4>
+              </div>
+              <span className="text-xl font-bold">:</span>
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.minutes.toString().padStart(2, '0')}</h4>
+              </div>
+              <span className="text-xl font-bold">:</span>
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.seconds.toString().padStart(2, '0')}</h4>
+              </div>
+            </div>
+            <p className="text-muted-foreground mt-2">Hours, Minutes, Seconds</p>
+            
+            {/* Animated bar to show seconds passing */}
+            <div className="absolute bottom-0 left-0 h-1 bg-primary" 
+                 style={{ width: `${(countdown.seconds / 60) * 100}%`, transition: 'width 1s linear' }}></div>
           </div>
         </div>
-        
-        <h3 className="text-2xl font-bold">Time Remaining</h3>
-        
+      );
+    } else if (timeUnit === "minutes") {
+      const totalMinutes = getTotalUnits();
+      return (
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border">
+            <div className="flex justify-center mb-4">
+              <Clock2 className="h-8 w-8 text-primary" />
+            </div>
+            <h4 className="text-3xl font-semibold mb-1">{Math.floor(totalMinutes).toLocaleString()}</h4>
+            <p className="text-muted-foreground">Total Minutes Remaining</p>
+          </div>
+          
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border relative overflow-hidden">
+            <div className="flex justify-center mb-4">
+              <Clock className="h-8 w-8 text-primary" />
+            </div>
+            <div className="flex justify-center items-center space-x-1">
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.minutes.toString().padStart(2, '0')}</h4>
+              </div>
+              <span className="text-xl font-bold">:</span>
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.seconds.toString().padStart(2, '0')}</h4>
+              </div>
+            </div>
+            <p className="text-muted-foreground mt-2">Minutes and Seconds</p>
+            
+            {/* Animated bar to show seconds passing */}
+            <div className="absolute bottom-0 left-0 h-1 bg-primary" 
+                 style={{ width: `${(countdown.seconds / 60) * 100}%`, transition: 'width 1s linear' }}></div>
+          </div>
+        </div>
+      );
+    } else if (timeUnit === "seconds") {
+      const totalSeconds = getTotalUnits();
+      return (
+        <div className="grid gap-6 md:grid-cols-1">
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border relative overflow-hidden">
+            <div className="flex justify-center mb-4">
+              <Clock className="h-8 w-8 text-primary" />
+            </div>
+            <h4 className="text-4xl font-semibold mb-1 animate-pulse">{Math.floor(totalSeconds).toLocaleString()}</h4>
+            <p className="text-muted-foreground">Total Seconds Remaining</p>
+            
+            {/* Animated bar to show seconds passing */}
+            <div className="absolute bottom-0 left-0 h-1 bg-primary" 
+                 style={{ width: '100%' }}></div>
+          </div>
+        </div>
+      );
+    } else {
+      // For years, months, days
+      return (
         <div className="grid gap-6 md:grid-cols-3">
           <div className="bg-card shadow-sm rounded-lg p-6 text-center border">
             <div className="flex justify-center mb-4">
@@ -156,19 +252,33 @@ export function TimeUnitsView({
             <p className="text-muted-foreground mt-2">Hours, Minutes, Seconds</p>
             
             {/* Animated bar to show seconds passing */}
-            <div className="absolute bottom-0 left-0 h-1 bg-primary animate-pulse" 
-                 style={{ width: `${(countdown.seconds / 60) * 100}%` }}></div>
+            <div className="absolute bottom-0 left-0 h-1 bg-primary" 
+                 style={{ width: `${(countdown.seconds / 60) * 100}%`, transition: 'width 1s linear' }}></div>
           </div>
         </div>
+      );
+    }
+  };
+
+  return (
+    <div className="w-full space-y-8 py-4">
+      <div className="text-center space-y-6">
+        <div className="flex justify-center">
+          <div className="bg-primary/10 p-4 rounded-full">
+            <Clock className="h-12 w-12 text-primary" />
+          </div>
+        </div>
+        
+        <h3 className="text-2xl font-bold">Time Remaining</h3>
+        
+        {renderTimeUnitDisplay()}
         
         <div className="pt-4">
           <Button 
             onClick={handleWhatsAppShare}
             className="bg-green-500 hover:bg-green-600"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="h-5 w-5 mr-2" viewBox="0 0 16 16">
-              <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-            </svg>
+            <Share className="h-5 w-5 mr-2" />
             Share on WhatsApp
           </Button>
           
