@@ -4,6 +4,7 @@ import { Clock, Clock2, Clock3 } from "lucide-react";
 import { formatTimeRemaining } from "@/utils/timeCalculations";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
 
 interface TimeUnitsViewProps {
   elapsedUnits: number;
@@ -26,21 +27,71 @@ export function TimeUnitsView({
   const remainingUnits = Math.max(0, totalUnits - elapsedUnits);
   const formattedTime = formatTimeRemaining(totalUnits, elapsedUnits, timeUnit as any);
   
+  // State for the real-time countdown
+  const [countdown, setCountdown] = useState({
+    years: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+  
   // Calculate remaining time in different units
-  const now = new Date();
-  const secondsInYear = 365.25 * 24 * 60 * 60;
-  const secondsRemaining = (lifeExpectancy - (now.getFullYear() - birthDate.getFullYear())) * secondsInYear;
-  
-  const years = Math.floor(secondsRemaining / (secondsInYear));
-  const days = Math.floor((secondsRemaining % secondsInYear) / (24 * 60 * 60));
-  const hours = Math.floor((secondsRemaining % (24 * 60 * 60)) / (60 * 60));
-  const minutes = Math.floor((secondsRemaining % (60 * 60)) / 60);
-  const seconds = Math.floor(secondsRemaining % 60);
-  
-  const timeMessage = `${years} years, ${days} days, ${hours}h ${minutes}m ${seconds}s`;
+  useEffect(() => {
+    const calculateRemainingTime = () => {
+      const now = new Date();
+      const birthYear = birthDate.getFullYear();
+      const targetDate = new Date(birthYear + lifeExpectancy, birthDate.getMonth(), birthDate.getDate(), 
+                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds());
+      
+      const timeDiff = targetDate.getTime() - now.getTime();
+      
+      if (timeDiff <= 0) {
+        setCountdown({
+          years: 0,
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
+        });
+        return;
+      }
+      
+      // Calculate the time components
+      const secondsInMinute = 60;
+      const secondsInHour = 60 * 60;
+      const secondsInDay = 24 * 60 * 60;
+      const secondsInYear = 365.25 * 24 * 60 * 60;
+      
+      const secondsTotal = Math.floor(timeDiff / 1000);
+      
+      const years = Math.floor(secondsTotal / secondsInYear);
+      const days = Math.floor((secondsTotal % secondsInYear) / secondsInDay);
+      const hours = Math.floor((secondsTotal % secondsInDay) / secondsInHour);
+      const minutes = Math.floor((secondsTotal % secondsInHour) / secondsInMinute);
+      const seconds = Math.floor(secondsTotal % secondsInMinute);
+      
+      setCountdown({
+        years,
+        days,
+        hours,
+        minutes,
+        seconds
+      });
+    };
+    
+    // Initial calculation
+    calculateRemainingTime();
+    
+    // Update every second
+    const intervalId = setInterval(calculateRemainingTime, 1000);
+    
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [birthDate, lifeExpectancy]);
   
   const handleWhatsAppShare = () => {
-    const message = `Life Time Value: ${timeMessage}. Check out Life Time Value: ${window.location.href}`;
+    const message = `Life Time Value: ${countdown.years} years, ${countdown.days} days, ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s remaining. Check out Life Time Value: ${window.location.href}`;
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
     
@@ -75,7 +126,7 @@ export function TimeUnitsView({
             <div className="flex justify-center mb-4">
               <Clock2 className="h-8 w-8 text-primary" />
             </div>
-            <h4 className="text-xl font-semibold mb-1">{years.toLocaleString()}</h4>
+            <h4 className="text-xl font-semibold mb-1">{countdown.years.toLocaleString()}</h4>
             <p className="text-muted-foreground">Years</p>
           </div>
           
@@ -83,16 +134,32 @@ export function TimeUnitsView({
             <div className="flex justify-center mb-4">
               <Clock3 className="h-8 w-8 text-primary" />
             </div>
-            <h4 className="text-xl font-semibold mb-1">{days.toLocaleString()}</h4>
+            <h4 className="text-xl font-semibold mb-1">{countdown.days.toLocaleString()}</h4>
             <p className="text-muted-foreground">Days</p>
           </div>
           
-          <div className="bg-card shadow-sm rounded-lg p-6 text-center border">
+          <div className="bg-card shadow-sm rounded-lg p-6 text-center border relative overflow-hidden">
             <div className="flex justify-center mb-4">
               <Clock className="h-8 w-8 text-primary" />
             </div>
-            <h4 className="text-xl font-semibold mb-1">{hours.toLocaleString()}h {minutes}m {seconds}s</h4>
-            <p className="text-muted-foreground">Hours, Minutes, Seconds</p>
+            <div className="flex justify-center items-center space-x-1">
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.hours.toString().padStart(2, '0')}</h4>
+              </div>
+              <span className="text-xl font-bold">:</span>
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.minutes.toString().padStart(2, '0')}</h4>
+              </div>
+              <span className="text-xl font-bold">:</span>
+              <div className="bg-primary/10 p-2 rounded min-w-[50px]">
+                <h4 className="text-xl font-semibold">{countdown.seconds.toString().padStart(2, '0')}</h4>
+              </div>
+            </div>
+            <p className="text-muted-foreground mt-2">Hours, Minutes, Seconds</p>
+            
+            {/* Animated bar to show seconds passing */}
+            <div className="absolute bottom-0 left-0 h-1 bg-primary animate-pulse" 
+                 style={{ width: `${(countdown.seconds / 60) * 100}%` }}></div>
           </div>
         </div>
         
