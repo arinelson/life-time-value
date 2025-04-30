@@ -67,7 +67,7 @@ export function VisualizationSelector() {
               key={option.type} 
               value={option.type}
               className="flex items-center gap-2 px-3 py-2"
-              aria-label={t(option.label)}
+              aria-label={option.label}
             >
               {option.icon}
               <span className="hidden sm:inline">{t(option.label)}</span>

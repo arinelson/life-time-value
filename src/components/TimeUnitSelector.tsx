@@ -20,37 +20,37 @@ export function TimeUnitSelector() {
   const timeUnits = [
     { 
       value: "years", 
-      label: t("years"), 
+      label: "years", 
       icon: <CalendarFull className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "months", 
-      label: t("months"), 
+      label: "months", 
       icon: <CalendarIcon className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "weeks", 
-      label: t("weeks"), 
+      label: "weeks", 
       icon: <CalendarRange className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "days", 
-      label: t("days"), 
+      label: "days", 
       icon: <CalendarDays className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "hours", 
-      label: t("hours"), 
+      label: "hours", 
       icon: <Clock className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "minutes", 
-      label: t("minutes"), 
+      label: "minutes", 
       icon: <Clock className="mr-2 h-4 w-4" /> 
     },
     { 
       value: "seconds", 
-      label: t("seconds"), 
+      label: "seconds", 
       icon: <Clock className="mr-2 h-4 w-4" /> 
     }
   ];
@@ -64,14 +64,14 @@ export function TimeUnitSelector() {
       <Label htmlFor="time-unit">{t("timeUnit")}</Label>
       <Select value={timeUnit} onValueChange={handleSelectTimeUnit}>
         <SelectTrigger id="time-unit">
-          <SelectValue placeholder={t("selectTimeUnit")} />
+          <SelectValue placeholder="Select Time Unit" />
         </SelectTrigger>
         <SelectContent>
           {timeUnits.map((unit) => (
             <SelectItem key={unit.value} value={unit.value}>
               <div className="flex items-center">
                 {unit.icon}
-                {unit.label}
+                {t(unit.label)}
               </div>
             </SelectItem>
           ))}
