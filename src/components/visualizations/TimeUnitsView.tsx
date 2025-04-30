@@ -1,10 +1,9 @@
 
 import { useLanguage } from "@/hooks/useLanguage";
 import { Clock, Clock2, Clock3 } from "lucide-react";
-import { formatTimeRemaining } from "@/utils/timeCalculations";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface TimeUnitsViewProps {
   elapsedUnits: number;
@@ -15,17 +14,10 @@ interface TimeUnitsViewProps {
 }
 
 export function TimeUnitsView({
-  elapsedUnits,
-  totalUnits,
-  timeUnit,
   birthDate,
   lifeExpectancy
 }: TimeUnitsViewProps) {
-  const { t } = useLanguage();
   const { toast } = useToast();
-  
-  const remainingUnits = Math.max(0, totalUnits - elapsedUnits);
-  const formattedTime = formatTimeRemaining(totalUnits, elapsedUnits, timeUnit as any);
   
   // State for the real-time countdown
   const [countdown, setCountdown] = useState({
@@ -37,49 +29,55 @@ export function TimeUnitsView({
   });
   
   // Calculate remaining time in different units
-  useEffect(() => {
-    const calculateRemainingTime = () => {
-      const now = new Date();
-      const birthYear = birthDate.getFullYear();
-      const targetDate = new Date(birthYear + lifeExpectancy, birthDate.getMonth(), birthDate.getDate(), 
-                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds());
-      
-      const timeDiff = targetDate.getTime() - now.getTime();
-      
-      if (timeDiff <= 0) {
-        setCountdown({
-          years: 0,
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        });
-        return;
-      }
-      
-      // Calculate the time components
-      const secondsInMinute = 60;
-      const secondsInHour = 60 * 60;
-      const secondsInDay = 24 * 60 * 60;
-      const secondsInYear = 365.25 * 24 * 60 * 60;
-      
-      const secondsTotal = Math.floor(timeDiff / 1000);
-      
-      const years = Math.floor(secondsTotal / secondsInYear);
-      const days = Math.floor((secondsTotal % secondsInYear) / secondsInDay);
-      const hours = Math.floor((secondsTotal % secondsInDay) / secondsInHour);
-      const minutes = Math.floor((secondsTotal % secondsInHour) / secondsInMinute);
-      const seconds = Math.floor(secondsTotal % secondsInMinute);
-      
-      setCountdown({
-        years,
-        days,
-        hours,
-        minutes,
-        seconds
-      });
-    };
+  const calculateRemainingTime = useCallback(() => {
+    const now = new Date();
+    const birthYear = birthDate.getFullYear();
+    const targetDate = new Date(
+      birthYear + lifeExpectancy, 
+      birthDate.getMonth(), 
+      birthDate.getDate(), 
+      birthDate.getHours(), 
+      birthDate.getMinutes(), 
+      birthDate.getSeconds()
+    );
     
+    const timeDiff = targetDate.getTime() - now.getTime();
+    
+    if (timeDiff <= 0) {
+      setCountdown({
+        years: 0,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      });
+      return;
+    }
+    
+    // Calculate the time components
+    const secondsInMinute = 60;
+    const secondsInHour = 60 * 60;
+    const secondsInDay = 24 * 60 * 60;
+    const secondsInYear = 365.25 * 24 * 60 * 60;
+    
+    const secondsTotal = Math.floor(timeDiff / 1000);
+    
+    const years = Math.floor(secondsTotal / secondsInYear);
+    const days = Math.floor((secondsTotal % secondsInYear) / secondsInDay);
+    const hours = Math.floor((secondsTotal % secondsInDay) / secondsInHour);
+    const minutes = Math.floor((secondsTotal % secondsInHour) / secondsInMinute);
+    const seconds = Math.floor(secondsTotal % secondsInMinute);
+    
+    setCountdown({
+      years,
+      days,
+      hours,
+      minutes,
+      seconds
+    });
+  }, [birthDate, lifeExpectancy]);
+  
+  useEffect(() => {
     // Initial calculation
     calculateRemainingTime();
     
@@ -88,7 +86,7 @@ export function TimeUnitsView({
     
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, [birthDate, lifeExpectancy]);
+  }, [calculateRemainingTime]);
   
   const handleWhatsAppShare = () => {
     const message = `Life Time Value: ${countdown.years} years, ${countdown.days} days, ${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s remaining. Check out Life Time Value: ${window.location.href}`;
